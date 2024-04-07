@@ -1,0 +1,38 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Admin from "./Page/admin";
+import AdminEvent from "./Page/adminEvent";
+import ManageAccount from "./Page/manageAccount";
+import AdminFaculty from "./Page/adminFaculty";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <>
+  <React.StrictMode>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Admin/>}/>
+        <Route path="admin/event" element={<AdminEvent/>}/>
+        <Route path="admin/manage_accounts" element={<ManageAccount/>}/>
+        <Route path="admin/faculty" element={<AdminFaculty/>}/>
+      </Routes>
+    </BrowserRouter>
+  </React.StrictMode>
+  <ToastContainer
+    position="top-left"
+    autoClose={5000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+    theme="light"
+  />
+  </>
+)
