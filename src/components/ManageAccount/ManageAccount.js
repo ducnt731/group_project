@@ -4,8 +4,8 @@ import "../../style/manageAccounts.css"
 import AddAccount from "./addAccount";
 import EditAccount from "./editAccount";
 import DeleteAccount from "./deleteAccount";
-import { fetchAllUser } from "../../service/userService"
-
+import { fetchAllUser,addNewAccount, deleteAccount } from "../../service/userService"
+import { toast } from 'react-toastify';
 const Account = () => {
     const [isShowModalAdd, setIsShowModalAdd] = useState(0)
     const [isShowModalEdit, setIsShowModalEdit] = useState(false)
@@ -20,9 +20,7 @@ const Account = () => {
         setIsShowModalEdit(false)
         setIsShowModalDelete(false)
     }
-    const handleAddNew = (account) => {
-        setListAccount([account, ...listAccount])
-    }
+   
     const handleEdit = (accountEdit) => {
         setDataEdit(accountEdit)
         setIsShowModalEdit(true)
@@ -32,15 +30,19 @@ const Account = () => {
         setDataDelete(accountDelete)
     }
     const handleEditFromModal = (user) => {
-        let cloneListAccount = [...listAccount]
-        let index = listAccount.findIndex(item => item.id === user.id)
-        cloneListAccount[index].name = user.name
-        setListAccount(cloneListAccount)
+      
     }
-    const handleDeleteFromModal = (user) =>{
-        let cloneListAccount = [...listAccount]
-        cloneListAccount = cloneListAccount.filter(item => item._id !== user._id)
-        setListAccount(cloneListAccount)
+    const handleDeleteFromModal = async (dataEdit) =>{
+        try {
+            const response = await deleteAccount(dataEdit._id);
+            if (response) {
+                await getAllUser()
+                setIsShowModalDelete(!isShowModalDelete)
+                toast.success("Delete successful!!!")
+            }
+        } catch (error) {
+            toast.error("Delete error")
+        }
     }
     const getAllUser = async () =>{
         let res = await fetchAllUser()
@@ -48,6 +50,38 @@ const Account = () => {
             setTotalAccounts(res.total)
             setListAccount(res.data)
             // setTotalPages(res.total_pages)
+        }
+    }
+    const handleAddAccount=async (userData)=>{
+        try {  
+            let check=false
+        console.log(userData.image);
+            Object.keys(userData).map(key=>{
+            if (userData[key]==''){
+                check=true
+            }
+        })
+        if(!check){
+            const formData=new FormData()
+            Object.keys(userData).map(key=>{
+                formData.append(key,userData[key])
+            })
+            const res=await addNewAccount(formData);
+            if(res){
+                if(res.status!=200){
+                    toast.error(res.data.message)  
+                }else{
+                    console.log(userData);
+                toast.success('Create success!')
+                await getAllUser()
+                setIsShowModalAdd(false)
+                }
+            }
+        }else{
+            toast.error('Please enter all field!')
+        }
+        } catch (error) {
+            
         }
     }
     useEffect(() => {
@@ -81,12 +115,13 @@ const Account = () => {
                             {
                                 listAccount && listAccount.length > 0 &&
                                 listAccount.map((item, index) => {
+                                    console.log(item);
                                     return(
                                         <tr key={`users-${index}`}>
                                             <td><img src={item.image} style={{width: "80px", display: "block", margin: "auto"}}/></td>
                                             <td>{item.name}</td>
                                             <td>{item.email}</td>
-                                            <td>{item.faculty_name}</td>
+                                            <td>{item.faculty?.faculty_name}</td>
                                             <td>{item.role}</td>
                                             <td>
                                                 <div className="button-action">
@@ -106,7 +141,7 @@ const Account = () => {
         <AddAccount
             show = {isShowModalAdd}
             handleClose = {handleClose}
-            handleAddNewAccount = {handleAddNew}
+            handleAddNewAccount = {handleAddAccount}
         />
         <EditAccount
             show = {isShowModalEdit}

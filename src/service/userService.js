@@ -52,6 +52,10 @@ const deleteEvent = (eventId) => {
     return axios.delete(`/delete-event/${eventId}`);
 }
 
+const loginApi = (email, password) => {
+    return axios.post("/login", { email, password })
+}
+
 export { 
     fetchAllUser,
     addNewAccount, 
@@ -65,5 +69,6 @@ export {
     addNewEvent,
     fetchAllCountEvent,
     editEvent,
-    deleteEvent
+    deleteEvent,
+    loginApi
 }

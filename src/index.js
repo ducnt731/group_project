@@ -8,6 +8,7 @@ import ManageAccount from "./Page/manageAccount";
 import AdminFaculty from "./Page/adminFaculty";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LoginForm from "./Page/login";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -15,7 +16,8 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Admin/>}/>
+        <Route path="/admin" element={<Admin/>}/>
+        <Route path="/" element={<LoginForm/>}/>
         <Route path="admin/event" element={<AdminEvent/>}/>
         <Route path="admin/manage_accounts" element={<ManageAccount/>}/>
         <Route path="admin/faculty" element={<AdminFaculty/>}/>

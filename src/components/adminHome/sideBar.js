@@ -12,22 +12,22 @@ const SideBar = ({openSidebarToggle, OpenSidebar, children}) => {
             </div>
             <ul className='sidebar-list'>
                 <li className='sidebar-list-item'>
-                    <a href="/">
+                    <a href="/admin">
                         <i className="fa-solid fa-house icon"></i> Home
                     </a>
                 </li>
                 <li className='sidebar-list-item'>
-                    <a href="admin/event">
+                    <a href="/admin/event">
                     <i className="fa-solid fa-calendar-days icon"></i> Manage Event
                     </a>
                 </li>
                 <li className='sidebar-list-item'>
-                    <a href="admin/manage_accounts">
+                    <a href="/admin/manage_accounts">
                         <i className="fa-solid fa-users icon"></i> Manage Accounts
                     </a>
                 </li>
                 <li className='sidebar-list-item'>
-                    <a href="admin/faculty">
+                    <a href="/admin/faculty">
                     <i className="fa-solid fa-folder icon"></i> Faculty
                     </a>
                 </li>

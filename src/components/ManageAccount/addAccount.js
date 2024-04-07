@@ -5,35 +5,57 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 const AddAccount = (props) => {
-
     const {show, handleClose, handleAddNewAccount} = props
-    const [userData, setUserData] = useState("")
-    const [listAccount, setListAccount] = useState([])
+    const [showImage,setShowImage]=useState()
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [userData, setUserData] = useState({
+        name:"",
+        password:"",
+        email:"",
+        faculty:"",
+        role:"student",
+        image:null
+    })
+    console.log(userData);
+    const [listFaculty, setListFaculty] = useState([])
 
 
-    const handleSaveAccount = async () => {
-        let res = await addNewAccount(userData)
-        if (res && res.id) {
-            handleClose()
-            setUserData('')
-            toast.success("Create new account successful!!!")
-            handleAddNewAccount({userData})
-        }else{
-            toast.error("Fail to create new account")
-        }
-        console.log(res);
-    }
+  
     const getAllFaculty = async () =>{
         let res = await fetchAllFaculty()
         if (res) {
-            // setTotalAccounts(res.total)
-            setListAccount(res.data)
-            // setTotalPages(res.total_pages)
+            setListFaculty(res.data)
+            
         }
     }
     useEffect(() => {
         getAllFaculty()
     }, [])
+    const handleChange=(e)=>{
+        const {name,value}=e.target;
+        setUserData({...userData,[name]:value})
+    }
+    const handleImage=(file)=>{
+        const reader=new FileReader()
+        reader.readAsDataURL(file.target.files[0])
+        reader.onload = function () {
+            setShowImage(reader.result)
+            setUserData({...userData,image:file.target.files[0]})
+        };
+        
+    }
+
+    // const handleImage = (event) => {
+    //     const file = event.target.files[0];
+
+    //     const reader=new FileReader()
+    //     reader.readAsDataURL(file)
+    //     reader.onload = function () {
+    //         setShowImage(reader.result)
+    //     setUserData({ ...userData, image: file });
+    //     }
+        
+    //     };
 
     return(
         <Modal show={show} onHide={handleClose}>
@@ -44,31 +66,37 @@ const AddAccount = (props) => {
                 <div className="body-add">
                     <div className="mb-3">
                         <label className="form-label">Name</label>
-                        <input type="text" className="form-control" value={userData} onChange={(e) => setUserData(e.target.value)}/>
+                        <input type="text" required className="form-control" name='name' value={userData.name}  onChange={handleChange}/>
                     </div>
                     <div className="mb-3">
                         <label className="form-label">Email</label>
-                        <input type="text" className="form-control"/>
+                        <input type="email" required className="form-control" name='email' value={userData.email} onChange={handleChange}/>
                     </div>
                     <div className="mb-3">
                         <label className="form-label">Password</label>
-                        <input type="text" className="form-control"/>
+                        <input type="password" required name='password' className="form-control" value={userData.password} onChange={handleChange}/>
                     </div>
-                    <select className="form-select">
-                        <option>IT</option>
-                        <option>Business</option>
-                        <option>Design</option>
+                    <select className="form-select" required value={userData.faculty}  name='faculty' onChange={handleChange}>
+                        {listFaculty&&listFaculty.map((faculty)=>{
+                            return  <option key={faculty._id} value={faculty._id}>{faculty.faculty_name}</option>
+                        })}
+                       
+                       
                     </select>
                     <br/>
-                    <select className="form-select">
-                        <option>Student</option>
-                        <option>Manager MKT</option>
-                        <option>User</option>
-                        <option>Admin</option>
+                    <select className="form-select" value={userData.role} name='role' onChange={handleChange}>
+                        <option value={"student"}>Student</option>
+                        <option value={"admin"}>Admin</option>
+                        <option value={"marketing manage"}>Marketing Manage</option>
+                        <option value={"marketing coordinator"}>Marketing Coordinator</option>
                     </select>
+                
                     <div className="mb-3">
-                        <label htmlFor="formFile" className="form-label">Image</label>
-                        <input className="form-control" type="file" id="formFile"/>
+                        <h1  className="form-label">Image</h1>
+                        <label htmlFor="formFile" style={{width:"100px", height:"100px",borderRadius:"10px",overflow:"hidden",objectFit:'cover',objectPosition:"center"}} className='  d-flex align-items-center justify-content-center border'>
+                            {showImage?<img src={showImage} alt=''/>:"+"}
+                        </label>
+                        <input className="form-control d-none" type="file" id="formFile" name='image' onChange={handleImage}/>
                     </div>
                 </div>
             </Modal.Body>
@@ -76,7 +104,9 @@ const AddAccount = (props) => {
             <Button variant="secondary" onClick={handleClose}>
                 Close
             </Button>
-            <Button variant="primary" onClick={() => handleSaveAccount()}>
+            <Button variant="primary" onClick={()=>{
+                handleAddNewAccount(userData)
+            }}>
                 Save
             </Button>
             </Modal.Footer>

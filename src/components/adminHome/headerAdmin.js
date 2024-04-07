@@ -1,6 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { Button, Dropdown } from "react-bootstrap"
 
 const HeaderAdmin = ({OpenSidebar}) => {
+    const navigate = useNavigate()
     return (
         <header className='header'>
             <div className='menu-icon'>
@@ -10,9 +13,31 @@ const HeaderAdmin = ({OpenSidebar}) => {
                 <i className="fa-solid fa-magnifying-glass icon"></i>
             </div>
             <div className='header-right'>
-                <i className="fa-solid fa-bell icon"></i>
-                <i className="fa-solid fa-envelope icon"></i>
-                <i className="fa-solid fa-circle-user icon"></i>
+                {localStorage.getItem("token") ?
+
+                            <Dropdown>
+                                <Dropdown.Toggle id="dropdown-basic">
+                                    <img
+                                        src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+                                        className="rounded-circle"
+                                        height="25"
+                                        alt="Black and White Portrait of a Man"
+                                        loading="lazy"
+                                    />
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu>
+                                    <Dropdown.Item href="#">Profile</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => {
+                                        localStorage.clear()
+                                        navigate('/')
+                                    }}>Log out</Dropdown.Item>
+
+                                </Dropdown.Menu>
+                            </Dropdown> : <Button variant="primary" onClick={() => {
+                                navigate("/login")
+                            }}>Login</Button>
+                        }
             </div>
         </header>
     )

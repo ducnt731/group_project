@@ -5,7 +5,7 @@ const AdminHome = () => {
     return(
         <div className="home-container">
             <div className="title">
-                <h1>Welcome to Admin Home</h1>
+                <h1>Welcome {localStorage.getItem("name")} to Admin Home</h1>
                 <h4>Have a good day!</h4>
             </div>
             <div className="classify">
