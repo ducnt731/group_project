@@ -1,64 +1,86 @@
-import { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { editAccount } from '../../service/userService';
+import Button from 'react-bootstrap/Button';
+import { addNewAccount, fetchAllFaculty } from '../../service/userService';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 const EditAccount = (props) => {
+    const {show, handleClose, handleAccountEdit, dataEditAccount} = props
+    const [showImage,setShowImage]=useState()
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [userData, setUserData] = useState(dataEditAccount)
+    console.log(userData);
+    const [listFaculty, setListFaculty] = useState([])
 
-    const {show, handleClose, dataEditAccount, handleAccountEdit} = props
-    const [name, setName] = useState("")
-
-    const handleEditAccount = async () => {
-        let res = await editAccount(name)
-        if (res && res.updatedAt) {
-            handleAccountEdit({
-                name: name,
-                id: dataEditAccount.id
-            })
-            handleClose()
-            toast.success("Update successful!!!")
+    const getAllFaculty = async () =>{
+        let res = await fetchAllFaculty()
+        if (res) {
+            setListFaculty(res.data)
         }
     }
     useEffect(() => {
-        if (show) {
-            setName(dataEditAccount.name)
+        getAllFaculty()
+    }, [])
+
+    useEffect(() => {
+        if (dataEditAccount) {
+            setUserData(dataEditAccount)
         }
     }, [dataEditAccount])
+
+    const handleChange=(e)=>{
+        const {name,value}=e.target;
+        setUserData({...userData,[e.target.name]:e.target.value})
+    }
+    const handleImage=(file)=>{
+        const reader=new FileReader()
+        reader.readAsDataURL(file.target.files[0])
+        reader.onload = function () {
+            setShowImage(reader.result)
+            setUserData({...userData,image:file.target.files[0]})
+            
+        };
+        
+    }
 
     return(
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-            <Modal.Title>Edit Accounts</Modal.Title>
+            <Modal.Title>Edit Account</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <div className="body-add">
+                <div className="body-add">
                     <div className="mb-3">
                         <label className="form-label">Name</label>
-                        <input type="text" className="form-control" value={name} onChange={(e) => setName(e.target.value)}/>
+                        <input type="text" required className="form-control" name='name' value={userData.name}  onChange={handleChange}/>
                     </div>
                     <div className="mb-3">
                         <label className="form-label">Email</label>
-                        <input type="text" className="form-control"/>
+                        <input type="email" required className="form-control" name='email' value={userData.email} onChange={handleChange}/>
                     </div>
                     <div className="mb-3">
                         <label className="form-label">Password</label>
-                        <input type="text" className="form-control"/>
+                        <input type="password" required name='password' className="form-control" value={userData.password} onChange={handleChange}/>
                     </div>
-                    <select className="form-select">
-                        <option>IT</option>
-                        <option>Business</option>
-                        <option>Design</option>
+                    <select className="form-select" required value={userData.faculty}  name='faculty' onChange={handleChange}>
+                        {listFaculty&&listFaculty.map((faculty)=>{
+                            return  <option key={faculty._id} value={faculty._id}>{faculty.faculty_name}</option>
+                        })}
                     </select>
                     <br/>
-                    <select className="form-select">
-                        <option>Student</option>
-                        <option>Manager</option>
-                        <option>Admin</option>
+                    <select className="form-select" value={userData.role} name='role' onChange={handleChange}>
+                        <option value={"student"}>Student</option>
+                        <option value={"admin"}>Admin</option>
+                        <option value={"marketing manage"}>Marketing Manage</option>
+                        <option value={"marketing coordinator"}>Marketing Coordinator</option>
                     </select>
+                
                     <div className="mb-3">
-                        <label htmlFor="formFile" className="form-label">Image</label>
-                        <input className="form-control" type="file" id="formFile"/>
+                        <h1  className="form-label">Image</h1>
+                        <label htmlFor="formFile" style={{width:"100px", height:"100px",borderRadius:"10px",overflow:"hidden",objectFit:'cover',objectPosition:"center"}} className='  d-flex align-items-center justify-content-center border'>
+                            {showImage?<img src={showImage} alt=''/>:"+"}
+                        </label>
+                        <input className="form-control d-none" type="file" id="formFile" name='image' onChange={handleImage}/>
                     </div>
                 </div>
             </Modal.Body>
@@ -66,8 +88,10 @@ const EditAccount = (props) => {
             <Button variant="secondary" onClick={handleClose}>
                 Close
             </Button>
-            <Button variant="primary" onClick={() => handleEditAccount()}>
-                Confirm
+            <Button variant="primary" onClick={()=>{
+                handleAccountEdit(userData)
+            }}>
+                Save
             </Button>
             </Modal.Footer>
         </Modal>

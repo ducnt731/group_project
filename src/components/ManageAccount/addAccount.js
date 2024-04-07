@@ -19,8 +19,6 @@ const AddAccount = (props) => {
     console.log(userData);
     const [listFaculty, setListFaculty] = useState([])
 
-
-  
     const getAllFaculty = async () =>{
         let res = await fetchAllFaculty()
         if (res) {
@@ -41,21 +39,10 @@ const AddAccount = (props) => {
         reader.onload = function () {
             setShowImage(reader.result)
             setUserData({...userData,image:file.target.files[0]})
+            
         };
         
     }
-
-    // const handleImage = (event) => {
-    //     const file = event.target.files[0];
-
-    //     const reader=new FileReader()
-    //     reader.readAsDataURL(file)
-    //     reader.onload = function () {
-    //         setShowImage(reader.result)
-    //     setUserData({ ...userData, image: file });
-    //     }
-        
-    //     };
 
     return(
         <Modal show={show} onHide={handleClose}>
@@ -80,8 +67,6 @@ const AddAccount = (props) => {
                         {listFaculty&&listFaculty.map((faculty)=>{
                             return  <option key={faculty._id} value={faculty._id}>{faculty.faculty_name}</option>
                         })}
-                       
-                       
                     </select>
                     <br/>
                     <select className="form-select" value={userData.role} name='role' onChange={handleChange}>

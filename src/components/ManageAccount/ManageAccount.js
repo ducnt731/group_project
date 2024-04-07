@@ -4,7 +4,7 @@ import "../../style/manageAccounts.css"
 import AddAccount from "./addAccount";
 import EditAccount from "./editAccount";
 import DeleteAccount from "./deleteAccount";
-import { fetchAllUser,addNewAccount, deleteAccount } from "../../service/userService"
+import { fetchAllUser,addNewAccount, deleteAccount, editAccount } from "../../service/userService"
 import { toast } from 'react-toastify';
 const Account = () => {
     const [isShowModalAdd, setIsShowModalAdd] = useState(0)
@@ -20,7 +20,7 @@ const Account = () => {
         setIsShowModalEdit(false)
         setIsShowModalDelete(false)
     }
-   
+
     const handleEdit = (accountEdit) => {
         setDataEdit(accountEdit)
         setIsShowModalEdit(true)
@@ -29,8 +29,53 @@ const Account = () => {
         setIsShowModalDelete(true)
         setDataDelete(accountDelete)
     }
-    const handleEditFromModal = (user) => {
-      
+    const handleEditFromModal = async (userData) => {
+        // const id = dataEdit._id
+        // let newData = dataEdit
+        // delete newData.__v
+        // delete newData._id
+        // newData = { ...newData, id }
+        // try {
+        //     const response = await editAccount(newData);
+        //     if (response) {
+        //         await getAllUser()
+        //         setIsShowModalEdit(!isShowModalEdit)
+        //         toast.success("Edit success!")
+        //     }
+        // } catch (error) {
+        //     toast.error("Edit error")
+        // }
+        try {  
+            let check=false
+        console.log(userData.image);
+            Object.keys(userData).map(key=>{
+            if (userData[key]==''){
+                check=true
+            }
+        })
+        if(!check){
+            const formData=new FormData()
+            Object.keys(userData).map(key=>{
+                formData.append(key,userData[key])
+            })
+            const res=await addNewAccount(formData);
+            if(res){
+                if(res.status!=200){
+                    toast.success("Update sucessful!!!")
+                    await getAllUser()
+                    setIsShowModalAdd(!isShowModalAdd)
+                }else{
+                    console.log(userData);
+                    await getAllUser()
+                    setIsShowModalAdd(!isShowModalAdd)
+                }
+            }
+        }else{
+            toast.error('Please enter all field!')
+        }
+        } catch (error) {
+            
+        }
     }
     const handleDeleteFromModal = async (dataEdit) =>{
         try {
@@ -69,12 +114,13 @@ const Account = () => {
             const res=await addNewAccount(formData);
             if(res){
                 if(res.status!=200){
-                    toast.error(res.data.message)  
+                    toast.success("Add sucessful!!!")
+                    await getAllUser()
+                    setIsShowModalAdd(!isShowModalAdd)
                 }else{
                     console.log(userData);
-                toast.success('Create success!')
-                await getAllUser()
-                setIsShowModalAdd(false)
+                    await getAllUser()
+                    setIsShowModalAdd(!isShowModalAdd)
                 }
             }
         }else{
