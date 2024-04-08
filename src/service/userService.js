@@ -1,65 +1,85 @@
+
 import axios from './customize-axios'
 
-const fetchAllPost = () => {
-    return axios.get("https://comp1640.pythonanywhere.com/all_posts")
+const fetchAllPost = (token) => {
+    const headers = {
+        'Authorization': `Bearer ${token}` // Thêm token vào header Authorization
+    };
+    return axios.get("https://comp1640.pythonanywhere.com/all_posts",{headers})
 }
+
+const getAuthHeaders = () => {
+    const token = localStorage.getItem('accessToken');
+    return {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    };
+};
 
 const fetchAllUser = (currentPage, accountsPerPage) => {
-    return axios.get("/all-user", { params: { page: currentPage, limit: accountsPerPage } })
-
-}
+    return axios.get("/all-user", {
+        params: { page: currentPage, limit: accountsPerPage },
+        ...getAuthHeaders()
+    });
+};
 
 const addNewAccount = (userData) => {
-    return axios.post("/create-user", userData)
-}
+    return axios.post("/create-user", userData, getAuthHeaders());
+};
 
 const editAccount = (userData) => {
-    return axios.put("/update-user", userData)
-}
+    return axios.put("/update-user", userData, getAuthHeaders());
+};
 
 const deleteAccount = (_id) => {
-    return axios.delete(`/delete-user/${_id}`)
-}
+    return axios.delete(`/delete-user/${_id}`, getAuthHeaders());
+};
 
 const fetchAllFaculty = () => {
-    return axios.get("/all-faculty")
-}
+    return axios.get("/all-faculty", getAuthHeaders());
+
+};
 
 const addNewFaculty = (userData) => {
-    return axios.post("/create-faculty", userData)
-}
+    return axios.post("/create-faculty", userData, getAuthHeaders());
+};
 
 const editFaculty = (userData) => {
-    return axios.put("/update-faculty", userData)
-}
+    return axios.put("/update-faculty", userData, getAuthHeaders());
+};
 
 const deleteFaculty = (userId) => {
-    return axios.delete(`/delete-faculty/${userId}`);
-}
+    return axios.delete(`/delete-faculty/${userId}`, getAuthHeaders());
+};
 
 const fetchAllEvent = () => {
-    return axios.get("/all-event")
-}
+    return axios.get("/all-event", getAuthHeaders());
+};
 
 const fetchAllCountEvent = () => {
-    return axios.get("/count-event")
-}
+    return axios.get("/count-event", getAuthHeaders());
+};
 
 const addNewEvent = (userData) => {
-    return axios.post("/create-event", userData)
-}
+    return axios.post("/create-event", userData, getAuthHeaders());
+};
 
 const editEvent = (userData) => {
-    return axios.put("/update-event", userData)
-}
+    return axios.put("/update-event", userData, getAuthHeaders());
+};
 
 const deleteEvent = (eventId) => {
-    return axios.delete(`/delete-event/${eventId}`);
-}
+    return axios.delete(`/delete-event/${eventId}`, getAuthHeaders());
+};
 
 const loginApi = (email, password) => {
-    return axios.post("/login", { email, password })
-}
+    return axios.post("/login", { email, password });
+};
+
+const fetchDataFaculty = () => {
+    return axios.get("/count-by-faculty", getAuthHeaders());
+};
 
 export {
     fetchAllUser,
@@ -75,5 +95,7 @@ export {
     fetchAllCountEvent,
     editEvent,
     deleteEvent,
-    loginApi
+    loginApi,
+    fetchAllPost,
+    fetchDataFaculty
 }

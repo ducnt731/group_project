@@ -6,6 +6,7 @@
 .home-container{
     grid-area: main;
     overflow-y: auto;
+    background-color: #f1f5f9;
 }
 
 .title{
@@ -48,7 +49,8 @@
 
 .category{
     display: flex;
-    justify-content: space-around;
+    justify-content: start;
+    padding-left: 10px;
 }
 
 .event-body{
@@ -80,3 +82,28 @@
     padding: 5px 5px;
 }
 
+.like-comment{
+    display: flex;
+    padding-left: 10px;
+    justify-content: start;
+    .iconReact{
+        padding-top: 5px;
+    }
+}
+
+.user-createAt{
+    display: flex;
+    padding-left: 40px;
+    .user{
+        padding-right: 8px;
+    }
+    .createAt{
+        font-size: 10px;
+        padding-top: 7px;
+    }
+}
+
+.imagePost{
+    display: flex;
+    justify-content: center;
+}

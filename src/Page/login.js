@@ -29,7 +29,7 @@ const LoginForm = () => {
                 localStorage.setItem("name", data.user.name)
                 localStorage.setItem("role", data.user.role)
                 localStorage.setItem("user_id", data.user._id)
-                localStorage.setItem("token", data.accessToken)
+                localStorage.setItem("accessToken", data.accessToken)
                 if(data.user.role!='admin'){
                     toast.error("You must be admin to render this site!")
                 }else{

@@ -17,6 +17,11 @@ const SideBar = ({openSidebarToggle, OpenSidebar, children}) => {
                     </a>
                 </li>
                 <li className='sidebar-list-item'>
+                    <a href="/admin/dashboard">
+                    <i className="fa-solid fa-chart-simple"></i> DashBoard
+                    </a>
+                </li>
+                <li className='sidebar-list-item'>
                     <a href="/admin/event">
                     <i className="fa-solid fa-calendar-days icon"></i> Manage Event
                     </a>

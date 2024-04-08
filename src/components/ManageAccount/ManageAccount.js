@@ -132,8 +132,8 @@ const Account = () => {
         let pages = [];
         for (let i = 1; i <= totalPages; i++) {
             pages.push(
-                <li class="page-item" key={i}>
-                    <a class="page-link" href="#" onClick={() => handlePageChange(i)}>{i}</a>
+                <li className="page-item" key={i}>
+                    <a className="page-link" href="#" onClick={() => handlePageChange(i)}>{i}</a>
                 </li>
             );
         }
@@ -188,10 +188,8 @@ const Account = () => {
                         </Table>
                     </div>
                     <nav aria-label="Page navigation example me-3">
-                        <ul class="pagination justify-content-end">
+                        <ul className="pagination justify-content-end">
                             {renderPages()}
-
-
                         </ul>
                     </nav>
                 </div>
@@ -212,7 +210,6 @@ const Account = () => {
                 handleClose={handleClose}
                 dataUserDelete={dataDelete}
                 handleAccountDelete={handleDeleteFromModal}
-
             />
         </>
     )

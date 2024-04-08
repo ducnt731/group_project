@@ -1,17 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../style/adminHome.css"
+import { fetchAllPost } from "../../service/userService";
+import { BsArrowReturnRight, BsFileEarmarkBinaryFill } from "react-icons/bs";
 
 const AdminHome = () => {
-    const [listPost, setListPost] = useState([])
+
+    const [listPost, setListPost] = useState({})
+    const [isLike, setIsLike] = useState()
+    const [isShowComment, setIsShowComment] = useState()
+
     const getAllPost = async () => {
-        let res = await fetchAllPost()
+        const token = localStorage.getItem("accessToken")
+        let res = await fetchAllPost(token)
         if (res) {
-            setListPost(res.data)
+            // setTotalFaculty(res.total)
+            setListPost(res)
+            // setTotalPages(res.total_pages)
         }
+        console.log(">>>check post", res);
     }
+
     useEffect(() => {
-        getAllPost();
-    }, []);
+        getAllPost()
+    }, [])
+
+
     return (
         <div className="home-container">
             <div className="title">
@@ -40,31 +53,62 @@ const AdminHome = () => {
                     </select>
                 </div>
             </div>
-            <div className="event">
-                <div className="avatar">
-                    <i className="fa-solid fa-circle-user"></i> Username
-                </div>
-                <div className="category">
-                    <span>Title</span>
-                    <span>Event</span>
-                    <span>Create At</span>
-                </div>
-                <div className="event-body">
-                    <div className="event-content">
-                        <p>this is paragraph</p>
-                        <p>this file upload</p>
-                    </div>
-                    <div className="event-comment">
-                        <i className=" fa-solid fa-circle-user icon_event"></i>
-                        <div className="comment mb-3">
-                            <textarea className="form-control" placeholder="Write comment here..."></textarea>
+            {
+                listPost && listPost.length > 0 &&
+                listPost.map((item) => {
+                    return (
+                        <div className="event">
+                            <div className="avatar">
+                                <i className="fa-solid fa-circle-user"></i> {localStorage.getItem("name")}
+                            </div>
+                            <div className="category">
+                                <div>Title: {item.caption}</div>
+                                <div style={{paddingLeft: "10px"}}>Create At: {item.created_at}</div>
+                            </div>
+                            <div className="event-body">
+                                <div className="event-content">
+                                    <p style={{textAlign: "start"}}>{item.description}</p>
+                                    <div style={{textAlign: "start"}}>
+                                        <BsArrowReturnRight/><a href={item.file ? item.file : ""}><BsFileEarmarkBinaryFill/> file name</a>
+                                    </div>
+                                    <div className="imagePost">
+                                        <img style={{width: "300px", height: "450px"}} className="img-thumbnail" src={item.image}/>
+                                    </div>
+                                    <div className="like-comment">
+                                        <div className="iconReact">
+                                            <i style={{cursor: "pointer"}} className={isLike === true ? "fa-solid fa-thumbs-up" : "fa-regular fa-thumbs-up"}
+                                                onClick={() => setIsLike(!isLike)}
+                                            ></i> {item.likes}
+                                        </div>
+                                        <div className="iconReact" style={{paddingLeft: "8px"}}>
+                                            <i className="iconReact fa-regular fa-comment"></i> {item.comments_list.length}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="event-comment">
+                                    <i className=" fa-solid fa-circle-user icon_event"></i>
+                                    <div className="comment mb-3">
+                                        <textarea className="form-control" placeholder="Write comment here..."></textarea>
+                                    </div>
+                                    <i className="fa-solid fa-paper-plane" style={{ paddingTop: "15px" }}></i>
+                                </div>
+                                {item.comments_list && item.comments_list.length > 0 && item.comments_list.map((comment) =>
+                                    {return (
+                                        <div>
+                                            <div className="user-createAt">
+                                                <div className="user" ><b>{comment.user.name}</b></div>
+                                                {isShowComment && <div className="createAt">{comment.created_at}</div>}
+                                                <i className= {isShowComment === true ? "fa-solid fa-caret-down" :"fa-solid fa-caret-up"} onClick={() => setIsShowComment(!isShowComment)} style={{paddingTop: "5px", paddingLeft: "5px"}}></i>
+                                            </div>
+                                            {isShowComment && <div style={{ paddingLeft: "60px" }} ><BsArrowReturnRight style={{paddingBottom: "1px"}}/> {comment.comment}</div>}
+                                        </div>
+                                    )}
+                                )}
+                            </div>
                         </div>
-                        <i className="fa-solid fa-paper-plane" style={{ paddingTop: "15px" }}></i>
-                    </div>
-                    <i className="fa-solid fa-circle-user"></i> User name
-                    <p style={{ paddingLeft: "40px" }}>comment</p>
-                </div>
-            </div>
+                    )
+                })
+            }
         </div>
     )
 }

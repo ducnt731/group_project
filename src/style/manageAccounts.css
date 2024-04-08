@@ -1,5 +1,6 @@
 .account-container{
     grid-area: main;
+    background-color: #f1f5f9;
 }
 
 .button-account{

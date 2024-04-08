@@ -13,7 +13,7 @@ const HeaderAdmin = ({OpenSidebar}) => {
                 <i className="fa-solid fa-magnifying-glass icon"></i>
             </div>
             <div className='header-right'>
-                {localStorage.getItem("token") ?
+                {localStorage.getItem("accessToken") ?
 
                             <Dropdown>
                                 <Dropdown.Toggle id="dropdown-basic">
@@ -35,7 +35,7 @@ const HeaderAdmin = ({OpenSidebar}) => {
 
                                 </Dropdown.Menu>
                             </Dropdown> : <Button variant="primary" onClick={() => {
-                                navigate("/login")
+                                navigate("/")
                             }}>Login</Button>
                         }
             </div>
