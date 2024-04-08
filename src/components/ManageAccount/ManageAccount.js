@@ -4,7 +4,7 @@ import "../../style/manageAccounts.css"
 import AddAccount from "./addAccount";
 import EditAccount from "./editAccount";
 import DeleteAccount from "./deleteAccount";
-import { fetchAllUser,addNewAccount, deleteAccount, editAccount } from "../../service/userService"
+import { fetchAllUser, addNewAccount, deleteAccount, editAccount } from "../../service/userService"
 import { toast } from 'react-toastify';
 const Account = () => {
     const [isShowModalAdd, setIsShowModalAdd] = useState(0)
@@ -12,8 +12,10 @@ const Account = () => {
     const [isShowModalDelete, setIsShowModalDelete] = useState(false)
     const [dataEdit, setDataEdit] = useState({})
     const [dataDelete, setDataDelete] = useState({})
-    const [totalAccounts, setTotalAccounts] = useState(0)
-    const [listAccount, setListAccount] = useState([])
+    const [totalPages, setTotalPage] = useState(0);
+    const [listAccount, setListAccount] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const accountsPerPage = 10// Số tài khoản trên mỗi trang
 
     const handleClose = () => {
         setIsShowModalAdd(false)
@@ -29,55 +31,32 @@ const Account = () => {
         setIsShowModalDelete(true)
         setDataDelete(accountDelete)
     }
-    const handleEditFromModal = async (userData) => {
-        // const id = dataEdit._id
-        // let newData = dataEdit
-        // delete newData.__v
-        // delete newData._id
-        // newData = { ...newData, id }
-        // try {
-        //     const response = await editAccount(newData);
-        //     if (response) {
-        //         await getAllUser()
-        //         setIsShowModalEdit(!isShowModalEdit)
-        //         toast.success("Edit success!")
-        //     }
-        // } catch (error) {
-        //     toast.error("Edit error")
-        // }
-        try {  
-            let check=false
-        console.log(userData.image);
-            Object.keys(userData).map(key=>{
-            if (userData[key]==''){
-                check=true
+    const handleEditFromModal = async (dataEdit) => {
+        try {
+            // Tạo một FormData từ dữ liệu chỉnh sửa
+            const formData = new FormData();
+            formData.append('id', dataEdit._id);
+            formData.append('name', dataEdit.name);
+            formData.append('email', dataEdit.email);
+            formData.append('password', dataEdit.password);
+            formData.append('faculty', dataEdit.faculty);
+            formData.append('role', dataEdit.role);
+
+            if (dataEdit.image) {
+                formData.append('image', dataEdit.image);
             }
-        })
-        if(!check){
-            const formData=new FormData()
-            Object.keys(userData).map(key=>{
-                formData.append(key,userData[key])
-            })
-            const res=await addNewAccount(formData);
-            if(res){
-                if(res.status!=200){
-                    toast.success("Update sucessful!!!")
-                    await getAllUser()
-                    setIsShowModalAdd(!isShowModalAdd)
-                }else{
-                    console.log(userData);
-                    await getAllUser()
-                    setIsShowModalAdd(!isShowModalAdd)
-                }
+            // Gọi hàm editAccount với FormData đã tạo
+            const response = await editAccount(formData);
+            if (response) {
+                await getAllUser();
+                setIsShowModalEdit(!isShowModalEdit);
+                toast.success("Edit success!");
             }
-        }else{
-            toast.error('Please enter all field!')
-        }
         } catch (error) {
-            
+            toast.error("Edit error");
         }
     }
-    const handleDeleteFromModal = async (dataEdit) =>{
+    const handleDeleteFromModal = async (dataEdit) => {
         try {
             const response = await deleteAccount(dataEdit._id);
             if (response) {
@@ -89,118 +68,152 @@ const Account = () => {
             toast.error("Delete error")
         }
     }
-    const getAllUser = async () =>{
-        let res = await fetchAllUser()
-        if (res) {
-            setTotalAccounts(res.total)
-            setListAccount(res.data)
-            // setTotalPages(res.total_pages)
-        }
-    }
-    const handleAddAccount=async (userData)=>{
-        try {  
-            let check=false
-        console.log(userData.image);
-            Object.keys(userData).map(key=>{
-            if (userData[key]==''){
-                check=true
+    const getAllUser = async () => {
+        // let res = await fetchAllUser()
+        // if (res) {
+        //     setTotalAccounts(res.total)
+        //     setListAccount(res.data)
+        //     // setTotalPages(res.total_pages)
+        // }
+        try {
+            const response = await fetchAllUser(currentPage, accountsPerPage);
+            if (response) {
+                setTotalPage(response.totalPages);
+                setListAccount(response.data);
             }
-        })
-        if(!check){
-            const formData=new FormData()
-            Object.keys(userData).map(key=>{
-                formData.append(key,userData[key])
-            })
-            const res=await addNewAccount(formData);
-            if(res){
-                if(res.status!=200){
-                    toast.success("Add sucessful!!!")
-                    await getAllUser()
-                    setIsShowModalAdd(!isShowModalAdd)
-                }else{
-                    console.log(userData);
-                    await getAllUser()
-                    setIsShowModalAdd(!isShowModalAdd)
-                }
-            }
-        }else{
-            toast.error('Please enter all field!')
-        }
         } catch (error) {
-            
+            console.error('Error fetching accounts:', error);
         }
     }
-    useEffect(() => {
-        getAllUser()
-    }, [])
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+    const handleAddAccount = async (userData) => {
+        try {
+            let check = false
+            console.log(userData.image);
+            Object.keys(userData).map(key => {
+                if (userData[key] == '') {
+                    check = true
+                }
+            })
+            if (!check) {
+                const formData = new FormData()
+                Object.keys(userData).map(key => {
+                    formData.append(key, userData[key])
+                })
+                const res = await addNewAccount(formData);
+                console.log(res)
+                if (res) {
+                    if (res.status != 200) {
+                        toast.success("Add sucessful!!!")
+                        await getAllUser()
+                        setIsShowModalAdd(!isShowModalAdd)
+                    } else {
+                        console.log(userData);
+                        await getAllUser()
+                        setIsShowModalAdd(!isShowModalAdd)
+                    }
+                }
+            } else {
+                toast.error('Please enter all field!')
+            }
+        } catch (error) {
 
-    return(
+        }
+    }
+    // useEffect(() => {
+    //     getAllUser()
+    // }, [])
+    useEffect(() => {
+        getAllUser();
+    }, [currentPage]);
+    const renderPages = () => {
+        let pages = [];
+        for (let i = 1; i <= totalPages; i++) {
+            pages.push(
+                <li class="page-item" key={i}>
+                    <a class="page-link" href="#" onClick={() => handlePageChange(i)}>{i}</a>
+                </li>
+            );
+        }
+        return pages;
+    }
+    return (
         <>
-        <div className="account-container">
-            <div className="account-list">
-                <div className="button-account">
-                    <h3>All Account</h3>
-                    <button
-                    className="btn btn-primary"
-                    onClick={() => setIsShowModalAdd(true)}
-                    >Add new</button>
-                </div>
-                <div className="table-account">
-                    <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Faculty</th>
-                            <th>Role</th>
-                            <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                listAccount && listAccount.length > 0 &&
-                                listAccount.map((item, index) => {
-                                    console.log(item);
-                                    return(
-                                        <tr key={`users-${index}`}>
-                                            <td><img src={item.image} style={{width: "80px", display: "block", margin: "auto"}}/></td>
-                                            <td>{item.name}</td>
-                                            <td>{item.email}</td>
-                                            <td>{item.faculty?.faculty_name}</td>
-                                            <td>{item.role}</td>
-                                            <td>
-                                                <div className="button-action">
-                                                    <button className="btn btn-warning" onClick={() => handleEdit(item)}>Edit</button>
-                                                    <button className="btn btn-danger" onClick={() => handleDelete(item)}>Delete</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </Table>
+            <div className="account-container">
+                <div className="account-list">
+                    <div className="button-account">
+                        <h3>All Account</h3>
+                        <button
+                            className="btn btn-primary"
+                            onClick={() => setIsShowModalAdd(true)}
+                        >Add new</button>
+                    </div>
+                    <div className="table-account">
+                        <Table striped bordered hover>
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Faculty</th>
+                                    <th>Role</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    listAccount && listAccount.length > 0 &&
+                                    listAccount.map((item, index) => {
+                                        console.log(item);
+                                        return (
+                                            <tr key={`users-${index}`}>
+                                                <td><img src={item.image} style={{ width: "80px", display: "block", margin: "auto" }} /></td>
+                                                <td>{item.name}</td>
+                                                <td>{item.email}</td>
+                                                <td>{item.faculty?.faculty_name}</td>
+                                                <td>{item.role}</td>
+                                                <td>
+                                                    <div className="button-action">
+                                                        <button className="btn btn-warning" onClick={() => handleEdit(item)}>Edit</button>
+                                                        <button className="btn btn-danger" onClick={() => handleDelete(item)}>Delete</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
+                                }
+                            </tbody>
+                        </Table>
+                    </div>
+                    <nav aria-label="Page navigation example me-3">
+                        <ul class="pagination justify-content-end">
+                            {renderPages()}
+
+
+                        </ul>
+                    </nav>
                 </div>
             </div>
-        </div>
-        <AddAccount
-            show = {isShowModalAdd}
-            handleClose = {handleClose}
-            handleAddNewAccount = {handleAddAccount}
-        />
-        <EditAccount
-            show = {isShowModalEdit}
-            dataEditAccount = {dataEdit}
-            handleClose = {handleClose}
-            handleAccountEdit = {handleEditFromModal}
-        />
-        <DeleteAccount
-            show = {isShowModalDelete}
-            handleClose = {handleClose}
-            dataUserDelete = {dataDelete}
-            handleAccountDelete = {handleDeleteFromModal}
-        />
+            <AddAccount
+                show={isShowModalAdd}
+                handleClose={handleClose}
+                handleAddNewAccount={handleAddAccount}
+            />
+            <EditAccount
+                show={isShowModalEdit}
+                dataEditAccount={dataEdit}
+                handleClose={handleClose}
+                handleAccountEdit={handleEditFromModal}
+            />
+            <DeleteAccount
+                show={isShowModalDelete}
+                handleClose={handleClose}
+                dataUserDelete={dataDelete}
+                handleAccountDelete={handleDeleteFromModal}
+
+            />
         </>
     )
 }

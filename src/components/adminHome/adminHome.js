@@ -2,7 +2,17 @@ import React from "react";
 import "../../style/adminHome.css"
 
 const AdminHome = () => {
-    return(
+    const [listPost, setListPost] = useState([])
+    const getAllPost = async () => {
+        let res = await fetchAllPost()
+        if (res) {
+            setListPost(res.data)
+        }
+    }
+    useEffect(() => {
+        getAllPost();
+    }, []);
+    return (
         <div className="home-container">
             <div className="title">
                 <h1>Welcome {localStorage.getItem("name")} to Admin Home</h1>
@@ -49,10 +59,10 @@ const AdminHome = () => {
                         <div className="comment mb-3">
                             <textarea className="form-control" placeholder="Write comment here..."></textarea>
                         </div>
-                        <i className="fa-solid fa-paper-plane" style={{paddingTop: "15px"}}></i>
+                        <i className="fa-solid fa-paper-plane" style={{ paddingTop: "15px" }}></i>
                     </div>
                     <i className="fa-solid fa-circle-user"></i> User name
-                    <p style={{paddingLeft: "40px"}}>comment</p>
+                    <p style={{ paddingLeft: "40px" }}>comment</p>
                 </div>
             </div>
         </div>

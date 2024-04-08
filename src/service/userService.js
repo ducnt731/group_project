@@ -1,15 +1,20 @@
 import axios from './customize-axios'
 
-const fetchAllUser = () => {
-    return axios.get("/all-user")
+const fetchAllPost = () => {
+    return axios.get("https://comp1640.pythonanywhere.com/all_posts")
+}
+
+const fetchAllUser = (currentPage, accountsPerPage) => {
+    return axios.get("/all-user", { params: { page: currentPage, limit: accountsPerPage } })
+
 }
 
 const addNewAccount = (userData) => {
     return axios.post("/create-user", userData)
 }
 
-const editAccount = (name) => {
-    return axios.put("/update-user", {name})
+const editAccount = (userData) => {
+    return axios.put("/update-user", userData)
 }
 
 const deleteAccount = (_id) => {
@@ -56,14 +61,14 @@ const loginApi = (email, password) => {
     return axios.post("/login", { email, password })
 }
 
-export { 
+export {
     fetchAllUser,
-    addNewAccount, 
-    editAccount, 
-    deleteAccount, 
-    fetchAllFaculty, 
-    addNewFaculty, 
-    deleteFaculty, 
+    addNewAccount,
+    editAccount,
+    deleteAccount,
+    fetchAllFaculty,
+    addNewFaculty,
+    deleteFaculty,
     editFaculty,
     fetchAllEvent,
     addNewEvent,

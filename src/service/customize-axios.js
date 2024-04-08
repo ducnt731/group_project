@@ -2,6 +2,7 @@ import axios from "axios";
 
 const instance = axios.create({
     baseURL: 'https://magazine-web-670c.onrender.com'
+    // baseURL: 'http://localhost:3000'
 });
 
 // Add a response interceptor
