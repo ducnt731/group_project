@@ -81,6 +81,10 @@ const fetchDataFaculty = () => {
     return axios.get("/count-by-faculty", getAuthHeaders());
 };
 
+const fetchData = () => {
+    return axios.get("/post-percentages-by-faculty", getAuthHeaders());
+};
+
 export {
     fetchAllUser,
     addNewAccount,
@@ -97,5 +101,6 @@ export {
     deleteEvent,
     loginApi,
     fetchAllPost,
-    fetchDataFaculty
+    fetchDataFaculty,
+    fetchData
 }

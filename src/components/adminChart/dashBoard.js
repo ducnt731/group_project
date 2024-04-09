@@ -1,18 +1,40 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, PieChart, Cell, Pie } from 'recharts';
 import "../../style/dashBoard.css"
-import { fetchDataFaculty } from '../../service/userService';
+import { fetchData, fetchDataFaculty } from '../../service/userService';
 import { useEffect, useState } from 'react';
 
 const DashBoard = () => {
 
+    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
+const RADIAN = Math.PI / 180;
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+        <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+        {`${(percent * 100).toFixed(0)}%`}
+        </text>
+    );
+};
+
     const [listData, setListData] = useState([])
+    const [perData, setPerData] = useState([])
 
     const getDataPost = async () => {
         try {
-            const res = await fetchDataFaculty()
-            const data = res.data
-            setListData(data)
-            console.log(">>>> data", res);
+            let res = await fetchDataFaculty()
+            let res2 = await fetchData()
+            console.log(res2)
+            if (res !== null && res2 !== null) {
+                setListData(res)
+                setPerData(res2);
+                console.log("xnxx=>",perData)
+            } else {
+                console.error('No data received')
+            }
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -21,8 +43,6 @@ const DashBoard = () => {
     useEffect(() => {
         getDataPost()
     }, [])
-
-    const data = [];
 
     return (
         <main className='main-container'>
@@ -76,40 +96,35 @@ const DashBoard = () => {
                             }}
                         >
                             <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
+                            <XAxis dataKey="faculty.faculty_name" />
                             <YAxis />
                             <Tooltip />
                             <Legend />
-                            <Bar dataKey="pv" fill="#8884d8" />
+                            <Bar dataKey="totalPosts" fill="#8884d8" />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
+
                 <div className='chart-card'>
-                    <ResponsiveContainer width="100%" height="100%">
-                        <LineChart
-                            width={500}
-                            height={300}
-                            data={listData}
-                            margin={{
-                                top: 5,
-                                right: 30,
-                                left: 20,
-                                bottom: 5,
-                            }}
-                        >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
-                            <YAxis />
-                            <Tooltip />
-                            <Legend />
-                            <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-                            <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-                        </LineChart>
+                <ResponsiveContainer width="100%" height="100%">
+                    <PieChart width={400} height={400}>
+                            <Pie
+                                data={perData}
+                                cx="50%"
+                                cy="50%"
+                                labelLine={false}
+                                label={renderCustomizedLabel}
+                                outerRadius={80}
+                                fill="#8884d8"
+                                dataKey="percentage"
+                            >
+                            {perData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                            </Pie>
+                        </PieChart>
                     </ResponsiveContainer>
                 </div>
-                {/* <div className='chart-card'>
-
-                </div> */}
             </div>
         </main>
     )
