@@ -39,7 +39,7 @@ const ModalEdit = (props) => {
                         type="date"
                         className="form-control"
                         name="first_closure_date"
-                        value={formatDate(new Date(data.first_closure_date))}/>
+                        value={formatDate(new Date(data.first_closure_date))} onChange={handleChange}/>
                     </div>
                     <div className="mb-3">
                         <label className="form-label">Deadline of event</label>
@@ -47,7 +47,7 @@ const ModalEdit = (props) => {
                         type="date" 
                         className="form-control"
                         name="final_closure_date"
-                        value={formatDate(new Date(data.final_closure_date))}/>
+                        value={formatDate(new Date(data.final_closure_date))} onChange={handleChange}/>
                     </div>
                 </div>
             </Modal.Body>

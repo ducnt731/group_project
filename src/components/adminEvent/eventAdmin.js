@@ -139,10 +139,10 @@ const Event = () => {
                                             {
                                                 listCountEvent && listCountEvent.length > 0 &&
                                                 <div key={`countEvent-${index}`} className="reactEvent">
-                                                <div className="reactEvent-item">{event.totalPosts}</div>
-                                                <div className="reactEvent-item">{event.totalLikes}</div>
-                                                <div className="reactEvent-item">{event.totalComments}</div>
-                                            </div>
+                                                    <div className="reactEvent-item">{event.totalPosts}</div>
+                                                    <div className="reactEvent-item">{event.totalLikes}</div>
+                                                    <div className="reactEvent-item">{event.totalComments}</div>
+                                                </div>
                                             }
                                         </div>
                                         <div className="button">

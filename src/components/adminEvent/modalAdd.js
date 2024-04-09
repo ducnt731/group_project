@@ -1,15 +1,20 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {formatDate} from "../../service/formatDate"
+import { fetchAllFaculty } from '../../service/userService';
 
 const ModalAdd = (props) => {
 
     const { show, handleClose, handleAddNewEvent } = props
+    const [listFaculty, setListFaculty] = useState([])
+
     const [data, setData] = useState({
-        "event_name": "",
-        "first_closure_date": "",
-        "final_closure_date": "",
+        event_name: "",
+        event_description: "",
+        faculty: "",
+        first_closure_date: "",
+        final_closure_date: "",
     })
     const handleChange = (e) => {
         setData({
@@ -18,6 +23,17 @@ const ModalAdd = (props) => {
         })
     }
 
+    const getAllFaculty = async () => {
+        let res = await fetchAllFaculty()
+        if (res) {
+            setListFaculty(res.data)
+
+        }
+    }
+    useEffect(() => {
+        getAllFaculty()
+    }, [])
+
     return(
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
@@ -25,7 +41,7 @@ const ModalAdd = (props) => {
             </Modal.Header>
             <Modal.Body>
                 <div className="body-add">
-                <div className="mb-3">
+                    <div className="mb-3">
                         <label className="form-label">Event's Name</label>
                         <input 
                             type="text"
@@ -35,6 +51,11 @@ const ModalAdd = (props) => {
                             onChange={handleChange}
                         />
                     </div>
+                    <select className="form-select" required value={data.faculty} name='faculty' onChange={handleChange}>
+                        {listFaculty && listFaculty.map((faculty) => {
+                            return <option key={faculty._id} value={faculty._id}>{faculty.faculty_name}</option>
+                        })}
+                    </select>
                     <div className="mb-3">
                         <label className="form-label">Date start</label>
                         <input 

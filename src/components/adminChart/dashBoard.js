@@ -50,7 +50,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
                 <h3>Dashboard</h3>
             </div>
 
-            <div className='main-cards'>
+            {/* <div className='main-cards'>
                 <div className='card'>
                     <div className='card-inner'>
                         <h4>Earning(Monthly)</h4>
@@ -79,7 +79,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
                     </div>
                     <h1>42</h1>
                 </div>
-            </div>
+            </div> */}
 
             <div className='charts'>
                 <div className='chart-card'>
