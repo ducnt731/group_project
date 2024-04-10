@@ -16,8 +16,7 @@ const Event = () => {
     const [listEvent, setListEvent] = useState([])
     const [listCountEvent, setListCountEvent] = useState([])
     const [totalEvent, setTotalEvent] = useState(0)
-    const [totalCountEvent, setTotalCountEvent] = useState(0)
-    console.log(listCountEvent);
+    // const [totalCountEvent, setTotalCountEvent] = useState(0)
     const handleClose = () => {
         setIsShowModalAdd(false)
         setIsShowModalEdit(false)
@@ -82,6 +81,7 @@ const Event = () => {
             setListEvent(res.data)
             // setTotalPages(res.total_pages)
         }
+        console.log(">>>check res", res);
     }
 
     useEffect(() => {
@@ -114,17 +114,21 @@ const Event = () => {
                         {
                             listEvent && listEvent.length > 0 &&
                             listEvent.map((item, index) => {
-                                const event =listCountEvent.find(events=>events.eventId==item._id)
+                                const event =listCountEvent.find(events=>events.eventId===item._id)
                                 return (
                                     <div key={`event-${index}`} className="eventM">
                                         <div className="assignment">
                                             <div className="inform">
                                                 <div className="inform-item">Event name:</div>
+                                                {/* <div className="inform-item">Faculty:</div> */}
+                                                <div className="inform-item">Description:</div>
                                                 <div className="inform-item">Date start:</div>
                                                 <div className="inform-item">Deadline:</div>
                                             </div>
                                             <div className="eventInform">
                                                 <div className="eventInform-item">{item.event_name}</div>
+                                                <div className="eventInform-item">{item.faculty?.faculty_name}</div>
+                                                <div className="eventInform-item">{item.event_description}</div>
                                                 <div className="eventInform-item">{item.first_closure_date}</div>
                                                 <div className="eventInform-item">{item.final_closure_date}</div>
                                             </div>

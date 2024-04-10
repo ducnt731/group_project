@@ -51,6 +51,16 @@ const ModalAdd = (props) => {
                             onChange={handleChange}
                         />
                     </div>
+                    <div className="mb-3">
+                        <label className="form-label">Event's Description</label>
+                        <input 
+                            type="text"
+                            className="form-control" required
+                            name="event_description"
+                            value={data.event_description && data.event_description} 
+                            onChange={handleChange}
+                        />
+                    </div>
                     <select className="form-select" required value={data.faculty} name='faculty' onChange={handleChange}>
                         {listFaculty && listFaculty.map((faculty) => {
                             return <option key={faculty._id} value={faculty._id}>{faculty.faculty_name}</option>

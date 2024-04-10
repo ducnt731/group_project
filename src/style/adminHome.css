@@ -62,7 +62,7 @@
 }
 
 .event-content{
-    text-align: center;
+    text-align: start;
 }
 
 .event-comment{
@@ -106,4 +106,19 @@
 .imagePost{
     display: flex;
     justify-content: center;
+}
+
+.avatar{
+    display: inline;
+    padding-right: 10px;
+}
+
+.avatarU{
+    display: flex;
+    justify-content: start;
+    .user-create{
+        padding-bottom: 10px;
+        padding-left: 8px;
+        .create{font-size: 12px;}
+    }
 }

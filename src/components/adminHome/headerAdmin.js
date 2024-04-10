@@ -4,6 +4,7 @@ import { Button, Dropdown } from "react-bootstrap"
 
 const HeaderAdmin = ({OpenSidebar}) => {
     const navigate = useNavigate()
+    
     return (
         <header className='header'>
             <div className='menu-icon'>

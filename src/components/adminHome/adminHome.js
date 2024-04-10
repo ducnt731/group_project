@@ -31,7 +31,7 @@ const AdminHome = () => {
                 <h1>Welcome {localStorage.getItem("name")} to Admin Home</h1>
                 <h4>Have a good day!</h4>
             </div>
-            <div className="classify">
+            {/* <div className="classify">
                 <div className="top-classify">
                     <h5>Classify</h5>
                 </div>
@@ -52,24 +52,31 @@ const AdminHome = () => {
                         <option value="3">Three</option>
                     </select>
                 </div>
-            </div>
+            </div> */}
             {
                 listPost && listPost.length > 0 &&
                 listPost.map((item) => {
                     return (
                         <div className="event">
                             <div className="avatar">
-                                <i className="fa-solid fa-circle-user"></i> {localStorage.getItem("name")}
+                                <i style={{fontSize: "25px", paddingRight: "10px"}} className="fa-solid fa-circle-user"></i>
+                                {localStorage.getItem("name")}
                             </div>
                             <div className="category">
-                                <div>Title: {item.caption}</div>
-                                <div style={{paddingLeft: "10px"}}>Create At: {item.created_at}</div>
+                                <div style={{paddingLeft: "10px"}}>Title: {item.caption}</div>
                             </div>
                             <div className="event-body">
                                 <div className="event-content">
-                                    <p style={{textAlign: "start"}}>{item.description}</p>
-                                    <div style={{textAlign: "start"}}>
-                                        <BsArrowReturnRight/><a href={item.file ? item.file : ""}><BsFileEarmarkBinaryFill/> file name</a>
+                                    <div className="avatarU">
+                                        <i style={{fontSize: "25px"}} className="fa-solid fa-circle-user"></i> 
+                                        <div className="user-create">
+                                            <div className="user">{item.user.name}</div> 
+                                            <div className="create">Create at: {item.created_at}</div>
+                                        </div>
+                                    </div>
+                                    <p>{item.description}</p>
+                                    <div>
+                                        <BsArrowReturnRight/><a href={item.file ? item.file : "#"}><BsFileEarmarkBinaryFill/> file name</a>
                                     </div>
                                     <div className="imagePost">
                                         <img style={{width: "300px", height: "450px"}} className="img-thumbnail" src={item.image}/>
