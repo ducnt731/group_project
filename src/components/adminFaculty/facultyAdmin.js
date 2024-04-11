@@ -25,10 +25,13 @@ const Faculty = () =>{
     const handleAddNew = async (account) => {
         try {
             const response = await addNewFaculty(account);
-            if (response) {
+            console.log(response);
+            if (response.data) {
                 await getAllFaculty()
                 setIsShowModalAdd(!isShowModalAdd)
                 toast.success("Create success!")
+            }else{
+                toast.warn("You must to enter all field!!!")
             }
         } catch (error) {
             toast.error("Create fail")
@@ -61,11 +64,6 @@ const Faculty = () =>{
         }
     }
 
-    // const handleDeleteFromModal = (user) =>{
-    //     let cloneListAccount = [...listAccount]
-    //     cloneListAccount = cloneListAccount.filter(item => item._id !== user._id)
-    //     setListAccount(cloneListAccount)
-    // }
     const handleDeleteFromModal = async (user) => {
         try {
             const response = await deleteFaculty(user._id);

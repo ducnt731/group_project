@@ -25,13 +25,13 @@ const Event = () => {
     const handleAddNew = async (event) => {
         try {
             const response = await addNewEvent(event);
-            console.log(response);
-            if (response) {
+            console.log(">>> check",response);
+            if (response.data) {
                 await getAllEvent()
                 setIsShowModalAdd(!isShowModalAdd)
                 toast.success("Create success!")
             }else {
-                toast.error("You need to enter all field!!!")
+                toast.warn("You need to enter all field!!!")
             }
         } catch (error) {
             toast.error("Create fail")
@@ -92,7 +92,6 @@ const Event = () => {
     const getAllCountEvent = async () => {
         let res = await fetchAllCountEvent()
         if (res) {
-            // setTotalCountEvent(res.total)
             setListCountEvent(res.totalCount)
         }
     }
@@ -102,7 +101,6 @@ const Event = () => {
     return (
         <>
             <div className="event-manage">
-
                 <div className="button-container">
                     <button className="btn btn-primary"
                         onClick={() => setIsShowModalAdd(true)}
@@ -114,7 +112,11 @@ const Event = () => {
                         {
                             listEvent && listEvent.length > 0 &&
                             listEvent.map((item, index) => {
-                                const event =listCountEvent.find(events=>events.eventId===item._id)
+                                const event = listCountEvent.find(events=>events.eventId===item._id)
+                                console.log(">>> check add", event);
+                                if (event === null) {
+                                    toast.warning("Add success but dont have any post")
+                                }
                                 return (
                                     <div key={`event-${index}`} className="eventM">
                                         <div className="assignment">

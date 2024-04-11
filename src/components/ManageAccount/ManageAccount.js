@@ -97,8 +97,7 @@ const Account = () => {
                     formData.append(key, userData[key])
                 })
                 const res = await addNewAccount(formData);
-                console.log("hjhj>>>",res)
-                if (res.status ) {
+                if (res.status) {
                     toast.warn(res.data.message)
                     await getAllUser()
                     setIsShowModalAdd(!isShowModalAdd)
