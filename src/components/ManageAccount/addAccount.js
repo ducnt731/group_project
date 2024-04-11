@@ -13,10 +13,10 @@ const AddAccount = (props) => {
         password: "",
         email: "",
         faculty: "",
-        role: "student",
+        role: "",
         image: null
     })
-    console.log("Check nè", userData);
+    // console.log("Check nè", userData);
     const [listFaculty, setListFaculty] = useState([])
 
     const getAllFaculty = async () => {
@@ -61,13 +61,17 @@ const AddAccount = (props) => {
                         <label className="form-label">Password</label>
                         <input type="password" required name='password' className="form-control" value={userData.password} onChange={handleChange} />
                     </div>
-                    <select className="form-select" required value={userData.faculty} name='faculty' onChange={handleChange}>
+                    <select className="form-select" required value={userData.faculty}  name='faculty' onChange={handleChange} >
+                        <option >Choose Faculty</option>
                         {listFaculty && listFaculty.map((faculty) => {
-                            return <option key={faculty._id} value={faculty._id}>{faculty.faculty_name}</option>
+                            return (
+                            <option key={faculty._id} value={faculty._id}>{faculty.faculty_name}</option>
+                        )
                         })}
                     </select>
                     <br />
                     <select className="form-select" value={userData.role} name='role' onChange={handleChange}>
+                        <option>Choose Role</option>
                         <option value={"student"}>Student</option>
                         <option value={"admin"}>Admin</option>
                         <option value={"marketing manage"}>Marketing Manage</option>

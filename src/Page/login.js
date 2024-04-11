@@ -77,9 +77,6 @@ const LoginForm = () => {
                         type="submit"
                         disabled={email && password ? false : true}
                     >{loadingAPI && <i className="fa-solid fa-sync fa-spin"></i>} Login</button>
-                    <div className="register-link">
-                        <p>Don't have an account? <a href="/register">Register</a></p>
-                    </div>
                 </form>
             </div>
         </div >

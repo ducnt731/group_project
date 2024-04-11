@@ -69,12 +69,6 @@ const Account = () => {
         }
     }
     const getAllUser = async () => {
-        // let res = await fetchAllUser()
-        // if (res) {
-        //     setTotalAccounts(res.total)
-        //     setListAccount(res.data)
-        //     // setTotalPages(res.total_pages)
-        // }
         try {
             const response = await fetchAllUser(currentPage, accountsPerPage);
             if (response) {
@@ -103,31 +97,28 @@ const Account = () => {
                     formData.append(key, userData[key])
                 })
                 const res = await addNewAccount(formData);
-                console.log(res)
-                if (res) {
-                    if (res.status != 200) {
-                        toast.success("Add sucessful!!!")
-                        await getAllUser()
-                        setIsShowModalAdd(!isShowModalAdd)
-                    } else {
-                        console.log(userData);
-                        await getAllUser()
-                        setIsShowModalAdd(!isShowModalAdd)
+                console.log("hjhj>>>",res)
+                if (res.status ) {
+                    toast.warn(res.data.message)
+                    await getAllUser()
+                    setIsShowModalAdd(!isShowModalAdd)
+                }else{
+                    toast.success("Add sucessful!!!")
+                    await getAllUser()
+                    setIsShowModalAdd(!isShowModalAdd)
                     }
-                }
             } else {
                 toast.error('Please enter all field!')
             }
         } catch (error) {
-
+            
         }
     }
-    // useEffect(() => {
-    //     getAllUser()
-    // }, [])
+
     useEffect(() => {
         getAllUser();
     }, [currentPage]);
+
     const renderPages = () => {
         let pages = [];
         for (let i = 1; i <= totalPages; i++) {
@@ -139,6 +130,7 @@ const Account = () => {
         }
         return pages;
     }
+
     return (
         <>
             <div className="account-container">
