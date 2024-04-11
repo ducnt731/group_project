@@ -21,7 +21,7 @@ export default function SideBarCoordinator({
         </div>
         <ul className="sidebar-list">
           <li className="sidebar-list-item">
-            <a href="/marketing/home">
+            <a href="/coordinator/home">
               <i className="fa-solid fa-house icon"></i> Home
             </a>
           </li>

@@ -22,7 +22,7 @@ export default function CoordinatorHome() {
   }, []);
 
   return (
-    <div className="home-container">
+    <div className="home-containerr">
       <div className="title">
         <h1>
           Welcome {localStorage.getItem("name")} to Marketing Coordinator Home

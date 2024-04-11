@@ -26,7 +26,7 @@ root.render(
           <Route path="admin/faculty" element={<AdminFaculty />} />
           <Route path="marketing/dashboard" element={<AdminChart />} />
           <Route path="marketing" element={<MarketingManage />} />
-          <Route path="coordinator" element={<Coordinator />} />
+          <Route path="coordinator/home" element={<Coordinator />} />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>
