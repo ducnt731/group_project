@@ -89,6 +89,10 @@ const downloadPost = () => {
     return axios.get("/downloadPostAsZip", getAuthHeaders())
 }
 
+const userDownload = () => {
+    return axios.get("/users-with-posts", getAuthHeaders())
+}
+
 export {
     fetchAllUser,
     addNewAccount,
@@ -107,5 +111,6 @@ export {
     fetchAllPost,
     fetchDataFaculty,
     fetchData,
-    downloadPost
+    downloadPost,
+    userDownload
 }
