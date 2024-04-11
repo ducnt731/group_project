@@ -1,12 +1,24 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import "../../style/marketingDownload.css"
 import { BiSolidDownvote } from "react-icons/bi";
+import { userDownload } from "../../service/userService";
+import Table from "react-bootstrap/Table"
 
 const MarketingManager = () => {
 
-    const getFile = () => {
-        
+    const [listUser, setListUser] = useState([])
+
+    const getFile = async() => {
+        let res = await userDownload()
+        if (res) {
+            setListUser(res.data)
+        }
+        console.log(">>>> check res", res);
     }
+
+    useEffect(() => {
+        getFile()
+    }, [])
 
     return(
         <div className="download-container">
@@ -16,9 +28,40 @@ const MarketingManager = () => {
                 </div>
                 <BiSolidDownvote/>
                 <div className="but">
-                    <button className="btn btn-primary"><i className="fa-solid fa-download"></i> Download All</button>
+                    <a href="https://magazine-web-670c.onrender.com/downloadPostsAsZip"><button className="btn btn-primary"><i className="fa-solid fa-download"></i> Download All</button></a>
                 </div>
             </div>
+            <div className="table-account">
+            <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                            <th style={{textAlign: "center"}}>Post ID</th>
+                            <th style={{textAlign: "center"}}>User</th>
+                            <th style={{textAlign: "center"}}>Create</th>
+                            <th style={{textAlign: "center"}}>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                listUser && listUser.length > 0 &&
+                                listUser.map((item, index) => {
+                                    return(
+                                        <tr key={`faculty-${index}`}>
+                                            <td style={{textAlign: "center"}}>{item.PostID}</td>
+                                            <td style={{textAlign: "center"}}>{item.User.nam}</td>
+                                            <td style={{textAlign: "center"}}>{item.CreateAt}</td>
+                                            <td>
+                                                <div className="button-action">
+                                                    <button className="btn btn-warning">Edit</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </Table>
+                </div>
         </div>
     )
 }

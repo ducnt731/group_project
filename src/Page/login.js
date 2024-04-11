@@ -37,6 +37,8 @@ const LoginForm = () => {
                 }else if (data.user.role ==='marketing manager') {
                     navigate('/marketing/home')
                     toast.success("Login successful!!!")
+                }else if(data.user.role ==='marketing coordinator'){
+                    toast.success("Login successful!!!")
                 }else{
                     toast.error("You must be a role admin/marketing to render this site")
                 }

@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 const EditAccount = (props) => {
     const { show, handleClose, handleAccountEdit, dataEditAccount } = props
     const [showImage, setShowImage] = useState()
-    const [selectedFile, setSelectedFile] = useState(null);
     const [userData, setUserData] = useState(dataEditAccount)
     const [listFaculty, setListFaculty] = useState([])
 
