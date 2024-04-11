@@ -11,7 +11,7 @@ const MarketingManager = () => {
     const getFile = async() => {
         let res = await userDownload()
         if (res) {
-            setListUser(res.data)
+            setListUser(res)
         }
         console.log(">>>> check res", res);
     }
@@ -32,36 +32,37 @@ const MarketingManager = () => {
                 </div>
             </div>
             <div className="table-account">
-            <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                            <th style={{textAlign: "center"}}>Post ID</th>
-                            <th style={{textAlign: "center"}}>User</th>
-                            <th style={{textAlign: "center"}}>Create</th>
-                            <th style={{textAlign: "center"}}>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                listUser && listUser.length > 0 &&
-                                listUser.map((item, index) => {
-                                    return(
-                                        <tr key={`faculty-${index}`}>
-                                            <td style={{textAlign: "center"}}>{item.PostID}</td>
-                                            <td style={{textAlign: "center"}}>{item.User.nam}</td>
-                                            <td style={{textAlign: "center"}}>{item.CreateAt}</td>
-                                            <td>
-                                                <div className="button-action">
-                                                    <button className="btn btn-warning">Edit</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </Table>
-                </div>
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                        <th style={{textAlign: "center"}}>Post ID</th>
+                        <th style={{textAlign: "center"}}>User</th>
+                        <th style={{textAlign: "center"}}>Create</th>
+                        <th style={{textAlign: "center"}}>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            listUser && listUser.length > 0 &&
+                            listUser.map((item, index) => {
+                                console.log(">>>check", listUser);
+                                return(
+                                    <tr key={`faculty-${index}`}>
+                                        <td style={{textAlign: "center"}}>{item.PostID}</td>
+                                        <td style={{textAlign: "center"}}>{item.User.name}</td>
+                                        <td style={{textAlign: "center"}}>{item.CreatedAt}</td>
+                                        <td>
+                                            <div className="button-action">
+                                                <button className="btn btn-primary">Download</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
+                    </tbody>
+                </Table>
+            </div>
         </div>
     )
 }
