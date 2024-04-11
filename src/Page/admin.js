@@ -3,19 +3,13 @@ import AdminHome from "../components/adminHome/adminHome"
 import LayoutAdmin from "../layouts/layoutAdmin"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
+import LayoutMarketing from "../layouts/layoutMarketing";
 
 const Admin = () => {
-    const navigate = useNavigate()
-    useEffect(() => {
-        if (localStorage.getItem('role') != "admin") {
-            toast.error("You must be admin to render this site!")
-            navigate('/')
-        }
-    }, [])
     return(
-        <LayoutAdmin>
+        <LayoutMarketing>
             <AdminHome/>
-        </LayoutAdmin>
+        </LayoutMarketing>
     )
 }
 

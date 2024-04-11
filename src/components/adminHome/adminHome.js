@@ -13,9 +13,7 @@ const AdminHome = () => {
         const token = localStorage.getItem("accessToken")
         let res = await fetchAllPost(token)
         if (res) {
-            // setTotalFaculty(res.total)
             setListPost(res)
-            // setTotalPages(res.total_pages)
         }
         console.log(">>>check post", res);
     }
@@ -28,7 +26,7 @@ const AdminHome = () => {
     return (
         <div className="home-container">
             <div className="title">
-                <h1>Welcome {localStorage.getItem("name")} to Admin Home</h1>
+                <h1>Welcome {localStorage.getItem("name")} to Marketing Manager Home</h1>
                 <h4>Have a good day!</h4>
             </div>
             {/* <div className="classify">
@@ -63,7 +61,7 @@ const AdminHome = () => {
                                 {localStorage.getItem("name")}
                             </div>
                             <div className="category">
-                                <div style={{paddingLeft: "10px"}}>Title: {item.caption}</div>
+                                <div>Title: {item.caption}</div>
                             </div>
                             <div className="event-body">
                                 <div className="event-content">
@@ -71,12 +69,12 @@ const AdminHome = () => {
                                         <i style={{fontSize: "25px"}} className="fa-solid fa-circle-user"></i> 
                                         <div className="user-create">
                                             <div className="user">{item.user.name}</div> 
-                                            <div className="create">Create at: {item.created_at}</div>
+                                            <div className="create">Create: {item.created_at}</div>
                                         </div>
                                     </div>
                                     <p>{item.description}</p>
                                     <div>
-                                        <BsArrowReturnRight/><a href={item.file ? item.file : "#"}><BsFileEarmarkBinaryFill/> file name</a>
+                                        <BsArrowReturnRight/><a href={item.file ? item.file : "#"}><BsFileEarmarkBinaryFill/>File name</a>
                                     </div>
                                     <div className="imagePost">
                                         <img style={{width: "300px", height: "450px"}} className="img-thumbnail" src={item.image}/>

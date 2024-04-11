@@ -1,11 +1,11 @@
 import DashBoard from "../components/adminChart/dashBoard"
-import LayoutAdmin from "../layouts/layoutAdmin"
+import LayoutMarketing from "../layouts/layoutMarketing"
 
 const AdminChart = () => {
     return(
-        <LayoutAdmin>
+        <LayoutMarketing>
             <DashBoard/>
-        </LayoutAdmin>
+        </LayoutMarketing>
     )
 }
 

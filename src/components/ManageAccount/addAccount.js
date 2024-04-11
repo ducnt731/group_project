@@ -74,7 +74,7 @@ const AddAccount = (props) => {
                         <option>Choose Role</option>
                         <option value={"student"}>Student</option>
                         <option value={"admin"}>Admin</option>
-                        <option value={"marketing manage"}>Marketing Manage</option>
+                        <option value={"marketing manager"}>Marketing Manager</option>
                         <option value={"marketing coordinator"}>Marketing Coordinator</option>
                     </select>
 

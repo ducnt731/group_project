@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoginForm from "./Page/login";
 import AdminChart from "./Page/adminChart";
+import MarketingManage from "./Page/marketingManage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,12 +18,13 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/admin" element={<Admin/>}/>
+        <Route path="marketing/home" element={<Admin/>}/>
         <Route path="/" element={<LoginForm/>}/>
         <Route path="admin/event" element={<AdminEvent/>}/>
-        <Route path="admin/manage_accounts" element={<ManageAccount/>}/>
+        <Route path="/admin" element={<ManageAccount/>}/>
         <Route path="admin/faculty" element={<AdminFaculty/>}/>
-        <Route path="admin/dashboard" element={<AdminChart/>}/>
+        <Route path="marketing/dashboard" element={<AdminChart/>}/>
+        <Route path="marketing" element={<MarketingManage/>}/>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

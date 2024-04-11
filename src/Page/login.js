@@ -30,13 +30,16 @@ const LoginForm = () => {
                 localStorage.setItem("role", data.user.role)
                 localStorage.setItem("user_id", data.user._id)
                 localStorage.setItem("accessToken", data.accessToken)
-                if(data.user.role!='admin'){
-                    toast.error("You must be admin to render this site!")
-                }else{
+                if(data.user.role ==='admin'){
+                    // toast.error("You must be admin to render this site!")
                     navigate('/admin')
                     toast.success("Login successful!!!")
+                }else if (data.user.role ==='marketing manager') {
+                    navigate('/marketing/home')
+                    toast.success("Login successful!!!")
+                }else{
+                    toast.error("You must be a role admin/marketing to render this site")
                 }
-                
             }
         } catch (error) {
             toast.error("Wrong email or password")
@@ -48,7 +51,7 @@ const LoginForm = () => {
         <div className="wrapper">
             <div className="login-form">
                 <form onSubmit={handleLogin}>
-                    <h1>Login</h1>
+                    <h1>Login Admin</h1>
                     <div className="input-box">
                         <input
                             type="text"

@@ -85,6 +85,10 @@ const fetchData = () => {
     return axios.get("/post-percentages-by-faculty", getAuthHeaders());
 };
 
+const downloadPost = () => {
+    return axios.get("/downloadPostAsZip", getAuthHeaders())
+}
+
 export {
     fetchAllUser,
     addNewAccount,
@@ -102,5 +106,6 @@ export {
     loginApi,
     fetchAllPost,
     fetchDataFaculty,
-    fetchData
+    fetchData,
+    downloadPost
 }

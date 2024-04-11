@@ -50,7 +50,7 @@
 .category{
     display: flex;
     justify-content: start;
-    padding-left: 10px;
+    padding-left: 32px;
 }
 
 .event-body{

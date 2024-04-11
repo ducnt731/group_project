@@ -15,7 +15,7 @@ const Faculty = () =>{
     const [dataEdit, setDataEdit] = useState({})
     const [dataDelete, setDataDelete] = useState({})
     const [totalAccounts, setTotalFaculty] = useState(0)
-    const [listAccount, setListAccount] = useState([])
+    const [listFaculty, setlistFaculty] = useState([])
 
     const handleClose = () => {
         setIsShowModalAdd(false)
@@ -80,7 +80,7 @@ const Faculty = () =>{
         let res = await fetchAllFaculty()
         if (res) {
             setTotalFaculty(res.total)
-            setListAccount(res.data)
+            setlistFaculty(res.data)
             // setTotalPages(res.total_pages)
         }
     }
@@ -99,7 +99,15 @@ const Faculty = () =>{
                     onClick={() => setIsShowModalAdd(true)}
                     >Add new</button>
                 </div>
-                <div className="table-account">
+                <div className="table-account"
+                    // style={{
+                    //     backgroundColor: "#f4f4f4",
+                    //     bordered: "1px solid #ccc",
+                    //     padding: "10px",
+                    //     margin: "20px",
+                    //     boxShadow: "0 6px 7px -3px rgba(0, 0, 0, 0.35)"
+                    // }}
+                >
                     <Table striped bordered hover>
                         <thead>
                             <tr>
@@ -109,8 +117,8 @@ const Faculty = () =>{
                         </thead>
                         <tbody>
                             {
-                                listAccount && listAccount.length > 0 &&
-                                listAccount.map((item, index) => {
+                                listFaculty && listFaculty.length > 0 &&
+                                listFaculty.map((item, index) => {
                                     return(
                                         <tr key={`faculty-${index}`}>
                                             <td style={{textAlign: "center"}}>{item.faculty_name}</td>

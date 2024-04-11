@@ -31,7 +31,6 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
             if (res !== null && res2 !== null) {
                 setListData(res)
                 setPerData(res2);
-                console.log("xnxx=>",perData)
             } else {
                 console.error('No data received')
             }

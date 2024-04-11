@@ -178,7 +178,7 @@ const Account = () => {
                             </tbody>
                         </Table>
                     </div>
-                    <nav aria-label="Page navigation example me-3">
+                    <nav aria-label="me-3">
                         <ul className="pagination justify-content-end">
                             {renderPages()}
                         </ul>

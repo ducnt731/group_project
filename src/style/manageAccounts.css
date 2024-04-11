@@ -1,5 +1,6 @@
 .account-container{
     grid-area: main;
+    overflow-y: auto;
     background-color: #f1f5f9;
 }
 
@@ -19,4 +20,12 @@
 
 .form-control{
     border-radius: 40px;
+}
+
+.table-account{
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 20px;
+    box-shadow: 0 6px 7px -3px rgba(0, 0, 0, 0.35);
 }
