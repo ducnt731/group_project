@@ -3,20 +3,16 @@
   padding: 0;
 }
 
-.home-container {
-  grid-area: main;
-  overflow-y: auto;
-  background-color: #f1f5f9;
-}
-
 .title {
-  background-color: #f4f4f4;
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin: 20px;
-  box-shadow: 0 6px 7px -3px rgba(0, 0, 0, 0.35);
+  width: 100%; /* Đảm bảo chiều rộng phần tử là 100% */
+  text-align: center; /* Căn giữa nội dung */
 }
 
+.title h1 {
+  white-space: nowrap; /* Ngăn chữ bị ngắt dòng */
+  overflow: hidden; /* Ẩn phần chữ vượt quá khung */
+  text-overflow: ellipsis; /* Hiển thị dấu chấm ở cuối nếu chữ vượt quá khung */
+}
 .classify {
   background-color: #f4f4f4;
   border: 1px solid #ccc;
