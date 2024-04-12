@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const SideBar = ({openSidebarToggle, OpenSidebar}) => {
+    const navigate = useNavigate()
     return(
         <>
         <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive": ""}>
@@ -23,7 +25,15 @@ const SideBar = ({openSidebarToggle, OpenSidebar}) => {
                 </li>
                 <li className='sidebar-list-item'>
                     <a href="/admin/faculty">
-                    <i className="fa-solid fa-folder icon"></i>Manage Faculties
+                        <i className="fa-solid fa-folder icon"></i> Manage Faculties
+                    </a>
+                </li>
+                <li className='sidebar-list-item' style={{color: "#fff"}}>
+                    <a onClick={() => {
+                        localStorage.clear()
+                        navigate('/')
+                    }}>
+                        <i className="fa-solid fa-right-from-bracket icon"></i> Logout
                     </a>
                 </li>
             </ul>

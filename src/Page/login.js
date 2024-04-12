@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import "../style/loginForm.css";
 import { loginApi } from "../service/userService";
 import { useNavigate } from "react-router-dom";
+import Spinner from 'react-bootstrap/Spinner';
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -31,7 +32,6 @@ const LoginForm = () => {
         localStorage.setItem("user_id", data.user._id);
         localStorage.setItem("accessToken", data.accessToken);
         if (data.user.role === "admin") {
-          // toast.error("You must be admin to render this site!")
           navigate("/admin");
           toast.success("Login successful!!!");
         } else if (data.user.role === "marketing manager") {
@@ -90,7 +90,7 @@ const LoginForm = () => {
             <a href="/forgot-password">Forgot password</a>
           </div>
           <button type="submit" disabled={email && password ? false : true}>
-            {loadingAPI && <i className="fa-solid fa-sync fa-spin"></i>} Login
+            Login {loadingAPI && <Spinner animation="border" variant="info" size="sm"/>}
           </button>
         </form>
       </div>

@@ -14,7 +14,7 @@ const LayoutAdmin = ({children}) => {
     return(
         <>
             <div className="grid-container">
-                <HeaderAdmin OpenSidebar={OpenSidebar}/>
+                {/* <HeaderAdmin OpenSidebar={OpenSidebar}/> */}
                 <SideBar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar}/>
                 {children}
             </div>

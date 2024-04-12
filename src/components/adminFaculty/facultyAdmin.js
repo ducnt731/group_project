@@ -5,7 +5,7 @@ import AddFaculty from "./addFaculty";
 import { toast } from "react-toastify";
 import DeleteFaculty from "./deleteFaculty";
 import EditFaculty from "./editFaculty";
-
+import { RiArrowUpDownLine  } from "react-icons/ri";
 
 const Faculty = () =>{
 
@@ -16,6 +16,7 @@ const Faculty = () =>{
     const [dataDelete, setDataDelete] = useState({})
     const [totalAccounts, setTotalFaculty] = useState(0)
     const [listFaculty, setlistFaculty] = useState([])
+    const [sortOrder, setSortOrder] = useState('asc');
 
     const handleClose = () => {
         setIsShowModalAdd(false)
@@ -81,12 +82,28 @@ const Faculty = () =>{
         if (res) {
             setTotalFaculty(res.total)
             setlistFaculty(res.data)
-            // setTotalPages(res.total_pages)
         }
     }
     useEffect(() => {
         getAllFaculty()
     }, [])
+
+    const handleSort = () => {
+        // Sao chép mảng items để không làm thay đổi mảng gốc
+        const sorted = [...listFaculty];
+        // Sắp xếp mảng sorted dựa trên trạng thái sắp xếp hiện tại
+        sorted.sort((a, b) => {
+            if (sortOrder === 'asc') {
+                return a.faculty_name.localeCompare(b.faculty_name);; // Sắp xếp tăng dần
+            } else {
+                return b.faculty_name.localeCompare(a.faculty_name); // Sắp xếp giảm dần
+            }
+        });
+        // Cập nhật items state với mảng đã sắp xếp
+        setlistFaculty(sorted);
+        // Đảo ngược trạng thái sắp xếp để sử dụng cho lần nhấp tiếp theo
+        setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    }
 
     return(
         <>
@@ -103,7 +120,11 @@ const Faculty = () =>{
                     <Table striped bordered hover>
                         <thead>
                             <tr>
-                            <th style={{textAlign: "center"}}>Faculty</th>
+                            <th className="sort-table">Faculty
+                                <div className="sort">
+                                    <RiArrowUpDownLine  onClick={handleSort}/>
+                                </div>
+                            </th>
                             <th style={{textAlign: "center"}}>Action</th>
                             </tr>
                         </thead>

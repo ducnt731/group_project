@@ -16,7 +16,7 @@ export default function LayoutCoordinator({ children }) {
   return (
     <>
       <div className="grid-container">
-        <HeaderAdmin OpenSidebar={OpenSidebar} />
+        {/* <HeaderAdmin OpenSidebar={OpenSidebar} /> */}
         <SideBarCoordinator
           openSidebarToggle={openSidebarToggle}
           OpenSidebar={OpenSidebar}

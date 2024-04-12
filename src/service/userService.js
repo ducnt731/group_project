@@ -97,6 +97,20 @@ const chart = () => {
     return axios.get("/event-statistic", getAuthHeaders())
 }
 
+const fetchAllPostCoordinator = (token) => {
+    const headers = {
+      Authorization: `Bearer ${token}`, // Thêm token vào header Authorization
+    };
+    return axios.get(
+        "https://comp1640.pythonanywhere.com/load_posts_cordinator",
+        { headers }
+    );
+};
+
+const search = (name) => {
+    return axios.get(`/search?name=${name}`, getAuthHeaders())
+}
+
 export {
     fetchAllUser,
     addNewAccount,
@@ -117,5 +131,7 @@ export {
     fetchData,
     downloadPost,
     userDownload,
-    chart
+    chart,
+    fetchAllPostCoordinator,
+    search
 }

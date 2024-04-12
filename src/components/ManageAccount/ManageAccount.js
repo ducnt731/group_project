@@ -4,8 +4,12 @@ import "../../style/manageAccounts.css"
 import AddAccount from "./addAccount";
 import EditAccount from "./editAccount";
 import DeleteAccount from "./deleteAccount";
-import { fetchAllUser, addNewAccount, deleteAccount, editAccount } from "../../service/userService"
+import { fetchAllUser, addNewAccount, deleteAccount, editAccount, search } from "../../service/userService"
 import { toast } from 'react-toastify';
+import { RiArrowUpDownLine  } from "react-icons/ri";
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+
 const Account = () => {
     const [isShowModalAdd, setIsShowModalAdd] = useState(0)
     const [isShowModalEdit, setIsShowModalEdit] = useState(false)
@@ -16,6 +20,9 @@ const Account = () => {
     const [listAccount, setListAccount] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const accountsPerPage = 10// Số tài khoản trên mỗi trang
+    const [sortOrder, setSortOrder] = useState('asc');
+    const [searchUser, setSearchUser] = useState('');
+    const [isSearching, setIsSearching] = useState(false);
 
     const handleClose = () => {
         setIsShowModalAdd(false)
@@ -127,7 +134,55 @@ const Account = () => {
                 </li>
             );
         }
-        return pages;
+        if (isSearching){
+            return null
+        }else{
+            return pages;
+        }
+        
+    }
+
+    const handleSort = () => {
+        // Sao chép mảng items để không làm thay đổi mảng gốc
+        const sorted = [...listAccount];
+        // Sắp xếp mảng sorted dựa trên trạng thái sắp xếp hiện tại
+        sorted.sort((a, b) => {
+            if (sortOrder === 'asc') {
+                return a.name.localeCompare(b.name);; // Sắp xếp tăng dần
+            } else {
+                return b.name.localeCompare(a.name); // Sắp xếp giảm dần
+            }
+        });
+        // Cập nhật items state với mảng đã sắp xếp
+        setListAccount(sorted);
+        // Đảo ngược trạng thái sắp xếp để sử dụng cho lần nhấp tiếp theo
+        setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    }
+
+    useEffect(() => {
+        const fetchSearchResults = async () => {
+            try {
+                const searchData = await search(searchUser);
+                setListAccount(searchData);
+            } catch (error) {
+                console.error('Error searching:', error);
+            }
+        };
+        
+        if (searchUser !== '') {
+            fetchSearchResults();
+        } else {
+            setIsSearching(false)
+            getAllUser();
+        }
+    }, [searchUser]);
+
+    const handleSearch = (e) => {
+        // e.preventDefault();
+        const { value } = e.target;
+        console.log(">>> check", e.target);
+        setSearchUser(value);
+        setIsSearching(true)
     }
 
     return (
@@ -136,6 +191,15 @@ const Account = () => {
                 <div className="account-list">
                     <div className="button-account">
                         <h3>All Account</h3>
+                            <Form className="d-flex">
+                                <Form.Control
+                                    type="search"
+                                    placeholder="Search"
+                                    className="me-2"
+                                    aria-label="Search"
+                                    onChange={handleSearch}
+                                />
+                            </Form>
                         <button
                             className="btn btn-primary"
                             onClick={() => setIsShowModalAdd(true)}
@@ -146,7 +210,11 @@ const Account = () => {
                             <thead>
                                 <tr>
                                     <th>Image</th>
-                                    <th>Name</th>
+                                    <th className="sort-table">Name
+                                        <div className="sort">
+                                            <RiArrowUpDownLine  onClick={handleSort}/>
+                                        </div>
+                                    </th>
                                     <th>Email</th>
                                     <th>Faculty</th>
                                     <th>Role</th>
@@ -160,7 +228,7 @@ const Account = () => {
                                         console.log(item);
                                         return (
                                             <tr key={`users-${index}`}>
-                                                <td><img src={item.image} style={{ width: "80px", display: "block", margin: "auto" }} /></td>
+                                                <td><img src={item.image} style={{ width: "90px", height: "90px", display: "block", margin: "auto" }} /></td>
                                                 <td>{item.name}</td>
                                                 <td>{item.email}</td>
                                                 <td>{item.faculty?.faculty_name}</td>

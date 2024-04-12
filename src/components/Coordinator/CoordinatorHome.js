@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "../../style/coordinator.css";
-import { fetchAllPost } from "../../service/userService";
-import { BsArrowReturnRight, BsFileEarmarkBinaryFill } from "react-icons/bs";
+import { fetchAllPostCoordinator } from "../../service/userService";
 
 export default function CoordinatorHome() {
-  const [listPost, setListPost] = useState({});
+  const [listPost, setListPost] = useState([]);
   const [isLike, setIsLike] = useState();
   const [isShowComment, setIsShowComment] = useState();
 
   const getAllPost = async () => {
     const token = localStorage.getItem("accessToken");
-    let res = await fetchAllPost(token);
+    let res = await fetchAllPostCoordinator(token);
     if (res) {
       setListPost(res);
     }
@@ -20,126 +19,64 @@ export default function CoordinatorHome() {
   useEffect(() => {
     getAllPost();
   }, []);
-
+  console.log(">>>check post1112", listPost);
   return (
-    <div className="home-containerr">
+    <div className="coordinator-container">
       <div className="title">
         <h1>
           Welcome {localStorage.getItem("name")} to Marketing Coordinator Home
         </h1>
         <h4>Have a good day!</h4>
       </div>
-      {listPost &&
-        listPost.length > 0 &&
-        listPost.map((item) => {
-          return (
-            <div className="event">
-              <div className="avatar">
-                <i
-                  style={{ fontSize: "25px", paddingRight: "10px" }}
-                  className="fa-solid fa-circle-user"
-                ></i>
-                {localStorage.getItem("name")}
-              </div>
-              <div className="category">
-                <div>Title: {item.caption}</div>
-              </div>
-              <div className="event-body">
-                <div className="event-content">
-                  <div className="avatarU">
-                    <i
-                      style={{ fontSize: "25px" }}
-                      className="fa-solid fa-circle-user"
-                    ></i>
-                    <div className="user-create">
-                      <div className="user">{item.user.name}</div>
-                      <div className="create">Create: {item.created_at}</div>
+
+      <div className="Blog">
+        <div className="content">
+          <div className="post-container">
+            {listPost &&
+              listPost.map((listPost) => {
+                return (
+                  <div className="post" key={listPost.id}>
+                    <div className="post-header">
+                      <h2>
+                        Author:{" "}
+                        {listPost.is_anonymous
+                          ? "Anonymous"
+                          : listPost.user.name}
+                      </h2>
+                      <h6>Title: {listPost.caption}</h6>
                     </div>
-                  </div>
-                  <p>{item.description}</p>
-                  <div>
-                    <BsArrowReturnRight />
-                    <a href={item.file ? item.file : "#"}>
-                      <BsFileEarmarkBinaryFill />
-                      File name
-                    </a>
-                  </div>
-                  <div className="imagePost">
-                    <img
-                      style={{ width: "300px", height: "450px" }}
-                      className="img-thumbnail"
-                      src={item.image}
-                    />
-                  </div>
-                  <div className="like-comment">
-                    <div className="iconReact">
-                      <i
-                        style={{ cursor: "pointer" }}
-                        className={
-                          isLike === true
-                            ? "fa-solid fa-thumbs-up"
-                            : "fa-regular fa-thumbs-up"
-                        }
-                        onClick={() => setIsLike(!isLike)}
-                      ></i>{" "}
-                      {item.likes}
+                    <p>{listPost.content}</p>
+                    <span>Time: {listPost.created_at}</span>
+                    <hr />
+                    <div>
+                      <p>{listPost.description}</p>
                     </div>
-                    <div className="iconReact" style={{ paddingLeft: "8px" }}>
-                      <i className="iconReact fa-regular fa-comment"></i>{" "}
-                      {item.comments_list.length}
-                    </div>
-                  </div>
-                </div>
-                <div className="event-comment">
-                  <i className=" fa-solid fa-circle-user icon_event"></i>
-                  <div className="comment mb-3">
-                    <textarea
-                      className="form-control"
-                      placeholder="Write comment here..."
-                    ></textarea>
-                  </div>
-                  <i
-                    className="fa-solid fa-paper-plane"
-                    style={{ paddingTop: "15px" }}
-                  ></i>
-                </div>
-                {item.comments_list &&
-                  item.comments_list.length > 0 &&
-                  item.comments_list.map((comment) => {
-                    return (
-                      <div>
-                        <div className="user-createAt">
-                          <div className="user">
-                            <b>{comment.user.name}</b>
-                          </div>
-                          {isShowComment && (
-                            <div className="createAt">{comment.created_at}</div>
+                    <div>
+                      {listPost.file !== "null" && (
+                        <a href={listPost.file}>
+                          {listPost.file.substring(
+                            listPost.file.lastIndexOf("/") + 1
                           )}
-                          <i
-                            className={
-                              isShowComment === true
-                                ? "fa-solid fa-caret-down"
-                                : "fa-solid fa-caret-up"
-                            }
-                            onClick={() => setIsShowComment(!isShowComment)}
-                            style={{ paddingTop: "5px", paddingLeft: "5px" }}
-                          ></i>
-                        </div>
-                        {isShowComment && (
-                          <div style={{ paddingLeft: "60px" }}>
-                            <BsArrowReturnRight
-                              style={{ paddingBottom: "1px" }}
-                            />{" "}
-                            {comment.comment}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-              </div>
-            </div>
-          );
-        })}
+                        </a>
+                      )}
+                    </div>
+
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                      {listPost.image !== "null" && (
+                        <img
+                          style={{ width: "300px", height: "400px" }}
+                          src={listPost.image}
+                          alt=""
+                        />
+                      )}
+                    </div>
+                    <hr />
+                  </div>
+                );
+              })}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
