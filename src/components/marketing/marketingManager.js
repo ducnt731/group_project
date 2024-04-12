@@ -1,26 +1,54 @@
 import React, { useEffect, useState } from "react"
 import "../../style/marketingDownload.css"
 import { BiSolidDownvote } from "react-icons/bi";
-import { userDownload } from "../../service/userService";
+import { downloadAPost, userDownload } from "../../service/userService";
 import Table from "react-bootstrap/Table"
+import { toast } from "react-toastify";
+import Download from "./modalDownload";
 
 const MarketingManager = () => {
 
     const [listUser, setListUser] = useState([])
+    const [isShowModalDownload, setIsShowModalDownload] = useState(false)
+    const [dataDownload, setDataDownload] = useState([])
+
+    const handleClose = () => {
+        setIsShowModalDownload(false)
+    }
 
     const getFile = async() => {
         let res = await userDownload()
         if (res) {
             setListUser(res)
         }
-        console.log(">>>> check res", res);
     }
 
     useEffect(() => {
         getFile()
     }, [])
 
+    const handleDownload = async () => {
+        try {
+            const response = await downloadAPost(dataDownload.PostID);
+            console.log(">>check", response);
+            if (response) {
+                // await getFile()
+                setDataDownload(response)
+                setIsShowModalDownload(!isShowModalDownload)
+                toast.success("Download successful!!!")
+            }
+        } catch (error) {
+            toast.error("Delete error")
+        }
+    }
+
+    const handleClick = (download) => {
+        setIsShowModalDownload(true)
+        setDataDownload(download)
+    }
+
     return(
+        <>
         <div className="download-container">
             <div className="download-body">
                 <div className="download-title">
@@ -45,7 +73,6 @@ const MarketingManager = () => {
                         {
                             listUser && listUser.length > 0 &&
                             listUser.map((item, index) => {
-                                console.log(">>>check", listUser);
                                 return(
                                     <tr key={`faculty-${index}`}>
                                         <td style={{textAlign: "center"}}>{item.PostID}</td>
@@ -53,7 +80,7 @@ const MarketingManager = () => {
                                         <td style={{textAlign: "center"}}>{item.CreatedAt}</td>
                                         <td>
                                             <div className="button-action">
-                                                <button className="btn btn-primary">Download</button>
+                                                <button className="btn btn-primary" onClick={() => handleClick(item)}>Download</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -64,6 +91,13 @@ const MarketingManager = () => {
                 </Table>
             </div>
         </div>
+        <Download
+            show = {isShowModalDownload}
+            handleClose = {handleClose}
+            dataUser = {dataDownload}
+            handleAccountDownload = {handleDownload}
+        />
+        </>
     )
 }
 
