@@ -93,8 +93,8 @@ const userDownload = () => {
     return axios.get("/users-with-posts", getAuthHeaders())
 }
 
-const downloadAPost = (postId) => {
-    return axios.get(`/downloadAPosts/${postId}`, getAuthHeaders())
+const chart = () => {
+    return axios.get("/event-statistic", getAuthHeaders())
 }
 
 export {
@@ -117,5 +117,5 @@ export {
     fetchData,
     downloadPost,
     userDownload,
-    downloadAPost
+    chart
 }
