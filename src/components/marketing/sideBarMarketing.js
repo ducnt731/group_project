@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const SideBarManager = ({openSidebarToggle, OpenSidebar, children}) => {
+    const navigate = useNavigate()
     return(
         <>
         <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive": ""}>
@@ -18,12 +20,20 @@ const SideBarManager = ({openSidebarToggle, OpenSidebar, children}) => {
                 </li>
                 <li className='sidebar-list-item'>
                     <a href="/marketing/dashboard">
-                    <i className="fa-solid fa-chart-simple"></i> DashBoard
+                        <i className="fa-solid fa-chart-simple"></i> DashBoard
                     </a>
                 </li>
                 <li className='sidebar-list-item'>
                     <a href="/marketing">
-                    <i className="icon fa-solid fa-download"></i> Download file
+                        <i className="icon fa-solid fa-download"></i> Download file
+                    </a>
+                </li>
+                <li className='sidebar-list-item'>
+                    <a style={{color: "#fff"}} onClick={() => {
+                        localStorage.clear()
+                        navigate('/')
+                    }}>
+                        <i className="fa-solid fa-right-from-bracket icon"></i> Log out
                     </a>
                 </li>
             </ul>

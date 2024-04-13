@@ -32,11 +32,14 @@
 }
 
 .eventM{
+    width: 450px;
+    height: 300px;
     background-color: #f4f4f4;
     border: 1px solid #ccc;
     padding: 10px;
     margin: 20px;
     box-shadow: 0 6px 7px -3px rgba(0, 0, 0, 0.35);
+    word-wrap: break-word;
     .assignment{
         display: grid;
         grid-template-columns: repeat(2, 1fr);

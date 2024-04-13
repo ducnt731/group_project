@@ -1,7 +1,5 @@
 import React from "react";
 import { useState } from "react"
-import HeaderAdmin from "../components/adminHome/headerAdmin"
-import SideBar from "../components/adminHome/sideBar"
 import "../style/layoutAdmin.css"
 import SideBarManager from "../components/marketing/sideBarMarketing";
 
