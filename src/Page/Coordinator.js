@@ -2,12 +2,12 @@ import React from "react";
 import CoordinatorHome from "../components/Coordinator/CoordinatorHome";
 import LayoutCoordinator from "../layouts/LayoutCoordinator";
 
-export default function Coordinator() {
+const Coordinator = () => {
   return (
     <LayoutCoordinator>
-      <div>
-        <CoordinatorHome></CoordinatorHome>
-      </div>
+        <CoordinatorHome/>
     </LayoutCoordinator>
   );
 }
+
+export default Coordinator

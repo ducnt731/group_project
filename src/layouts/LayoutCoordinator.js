@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import "../style/layoutAdmin.css";
+import "../style/layoutAdmin.css"
 import SideBarCoordinator from "../components/Coordinator/SideBarCoordinator";
 
 export default function LayoutCoordinator({ children }) {
