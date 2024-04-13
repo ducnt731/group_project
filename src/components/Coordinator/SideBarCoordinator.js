@@ -1,10 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function SideBarCoordinator({
   openSidebarToggle,
   OpenSidebar,
   children,
 }) {
+  const navigate = useNavigate()
   return (
     <>
       <aside
@@ -23,6 +25,15 @@ export default function SideBarCoordinator({
           <li className="sidebar-list-item">
             <a href="/coordinator/home">
               <i className="fa-solid fa-house icon"></i> Home
+            </a>
+          </li>
+          <li className="sidebar-list-item">
+          <a style={{color: "#fff"}} 
+                    onClick={() => {
+                      localStorage.clear()
+                      navigate('/')
+                    }}>
+              <i className="fa-solid fa-right-from-bracket icon"></i> Logout
             </a>
           </li>
         </ul>
