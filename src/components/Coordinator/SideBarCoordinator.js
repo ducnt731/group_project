@@ -25,16 +25,6 @@ export default function SideBarCoordinator({
               <i className="fa-solid fa-house icon"></i> Home
             </a>
           </li>
-          <li className="sidebar-list-item">
-            <a href="/marketing/dashboard">
-              <i className="fa-solid fa-chart-simple"></i> DashBoard
-            </a>
-          </li>
-          <li className="sidebar-list-item">
-            <a href="/marketing">
-              <i className="icon fa-solid fa-download"></i> Không
-            </a>
-          </li>
         </ul>
       </aside>
     </>
