@@ -21,7 +21,7 @@ export default function CoordinatorHome() {
   }, []);
   console.log(">>>check post1112", listPost);
   return (
-    <div className="coordinator-container">
+    <div className="coordinator">
       <div className="title">
         <h1>
           Welcome {localStorage.getItem("name")} to Marketing Coordinator Home
