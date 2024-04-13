@@ -15,7 +15,7 @@ const LayoutMarketing = ({children}) => {
     return(
         <>
             <div className="grid-container">
-                <HeaderAdmin OpenSidebar={OpenSidebar}/>
+                {/* <HeaderAdmin OpenSidebar={OpenSidebar}/> */}
                 <SideBarManager openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar}/>
                 {children}
             </div>
