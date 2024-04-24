@@ -135,7 +135,6 @@ const Event = () => {
                                                 <div className="eventInform-item">{item.final_closure_date}</div>
                                             </div>
                                         </div>
-                                        <span>------------------------------------------------------------------</span>
                                         <div className="grd-container">
                                             <div className="react">
                                                 <div className="react-item">Post:</div>

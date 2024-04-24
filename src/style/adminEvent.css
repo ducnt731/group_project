@@ -1,37 +1,38 @@
-*{
+* {
     margin: 0;
     padding: 0;
 }
 
-.event-manage{
+.event-manage {
     grid-area: main;
     overflow-y: auto;
     background-color: #f1f5f9;
 }
 
-.button-container{
+.button-container {
     display: flex;
     justify-content: flex-end;
     padding-top: 20px;
 }
 
-.list-event{
+.list-event {
     display: flex;
     flex-wrap: wrap;
 }
 
-.event-form{
+.event-form {
     background-color: #f4f4f4;
     border: 1px solid #ccc;
     padding: 10px;
     margin: 20px;
     box-shadow: 0 6px 7px -3px rgba(0, 0, 0, 0.35);
-    h3{
+
+    h3 {
         text-align: center;
     }
 }
 
-.eventM{
+.eventM {
     width: 450px;
     height: 300px;
     background-color: #f4f4f4;
@@ -40,30 +41,58 @@
     margin: 20px;
     box-shadow: 0 6px 7px -3px rgba(0, 0, 0, 0.35);
     word-wrap: break-word;
-    .assignment{
+
+    .assignment {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         text-align: left;
-        padding: 5px;
+        padding: 15px;
+        border-bottom: 1px black solid;
     }
-    .deadline{
+
+    .deadline {
         display: flex;
         justify-content: space-evenly;
     }
-    .button{
+
+    .button {
         display: flex;
         justify-content: space-evenly;
+        margin-top: 10px;
     }
 }
 
-.grd-container{
+.grd-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     text-align: left;
-    .react{
+    border-bottom: 1px black solid;
+
+    .react {
         padding: 5px;
     }
-    .reactEvent{
+
+    .reactEvent {
         padding: 5px;
     }
+}
+
+.eventInform {
+    display: flex;
+    flex-direction: column;
+}
+
+.eventInform-item {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* display: inline-block; */
+    max-width: 200px;
+}
+
+.eventInform-item:hover {
+    white-space: normal; /* Hiển thị toàn bộ nội dung khi di chuột vào */
+    overflow: visible;
+    background-color: #f0f0f0; /* Màu nền khi hover */
+    z-index: 9999;
 }
