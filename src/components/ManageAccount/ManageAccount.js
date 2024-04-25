@@ -6,9 +6,8 @@ import EditAccount from "./editAccount";
 import DeleteAccount from "./deleteAccount";
 import { fetchAllUser, addNewAccount, deleteAccount, editAccount, search } from "../../service/userService"
 import { toast } from 'react-toastify';
-import { RiArrowUpDownLine  } from "react-icons/ri";
+import { RiArrowUpDownLine } from "react-icons/ri";
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
 
 const Account = () => {
     const [isShowModalAdd, setIsShowModalAdd] = useState(0)
@@ -38,6 +37,7 @@ const Account = () => {
         setIsShowModalDelete(true)
         setDataDelete(accountDelete)
     }
+
     const handleEditFromModal = async (dataEdit) => {
         try {
             // Tạo một FormData từ dữ liệu chỉnh sửa
@@ -63,6 +63,7 @@ const Account = () => {
             toast.error("Edit error");
         }
     }
+
     const handleDeleteFromModal = async (dataEdit) => {
         try {
             const response = await deleteAccount(dataEdit._id);
@@ -86,9 +87,11 @@ const Account = () => {
             console.error('Error fetching accounts:', error);
         }
     }
+
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
     const handleAddAccount = async (userData) => {
         try {
             let check = false
@@ -108,16 +111,16 @@ const Account = () => {
                     toast.warn(res.data.message)
                     await getAllUser()
                     setIsShowModalAdd(!isShowModalAdd)
-                }else{
+                } else {
                     toast.success("Add sucessful!!!")
                     await getAllUser()
                     setIsShowModalAdd(!isShowModalAdd)
-                    }
+                }
             } else {
                 toast.error('Please enter all field!')
             }
         } catch (error) {
-            
+
         }
     }
 
@@ -134,12 +137,12 @@ const Account = () => {
                 </li>
             );
         }
-        if (isSearching){
+        if (isSearching) {
             return null
-        }else{
+        } else {
             return pages;
         }
-        
+
     }
 
     const handleSort = () => {
@@ -168,7 +171,7 @@ const Account = () => {
                 console.error('Error searching:', error);
             }
         };
-        
+
         if (searchUser !== '') {
             fetchSearchResults();
         } else {
@@ -191,15 +194,15 @@ const Account = () => {
                 <div className="account-list">
                     <div className="button-account">
                         <h3>All Account</h3>
-                            <Form className="d-flex">
-                                <Form.Control
-                                    type="search"
-                                    placeholder="Search"
-                                    className="me-2"
-                                    aria-label="Search"
-                                    onChange={handleSearch}
-                                />
-                            </Form>
+                        <Form className="d-flex">
+                            <Form.Control
+                                type="search"
+                                placeholder="Search"
+                                className="me-2"
+                                aria-label="Search"
+                                onChange={handleSearch}
+                            />
+                        </Form>
                         <button
                             className="btn btn-primary"
                             onClick={() => setIsShowModalAdd(true)}
@@ -212,7 +215,7 @@ const Account = () => {
                                     <th>Image</th>
                                     <th className="sort-table">Name
                                         <div className="sort">
-                                            <RiArrowUpDownLine  onClick={handleSort}/>
+                                            <RiArrowUpDownLine onClick={handleSort} />
                                         </div>
                                     </th>
                                     <th>Email</th>

@@ -61,7 +61,7 @@ const EditAccount = (props) => {
                     </div>
                     <div className="mb-3">
                         <label className="form-label">Password</label>
-                        <input type="password" required name='password' className="form-control" value={userData.password} onChange={handleChange} />
+                        <input type="password" required name='password' className="form-control" value={userData.password} onChange={handleChange} disabled />
                     </div>
                     <select className="form-select" required value={userData.faculty} name='faculty' onChange={handleChange}>
                         {listFaculty && listFaculty.map((faculty) => {
